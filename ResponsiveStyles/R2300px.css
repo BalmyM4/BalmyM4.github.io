@@ -1,0 +1,10 @@
+@media screen and (max-width: 2300px) { 
+    
+    .carousel-container {
+        width: 60%;            /* Ancho */
+    }
+
+    .sec_03 {
+        width: 60%;            /* Ancho */
+    }
+}
