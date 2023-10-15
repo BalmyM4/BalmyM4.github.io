@@ -1,0 +1,10 @@
+.conteiner_map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#map {
+    height: 500px;
+    width: 50%;
+}
