@@ -1,0 +1,9 @@
+
+.sec_03_promos {
+    height: 1200px;
+    width: 66%;            /* Ancho */
+    overflow: hidden;
+    position: relative;
+
+    margin: 0 auto;
+}
