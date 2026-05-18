@@ -1820,8 +1820,8 @@
 
         <section id="despedida" class="section farewell-section">
             <div class="farewell-card">
-                <video class="farewell-video" controls preload="metadata">
-                    <source src="video.mp4#t=40" type="video/mp4">
+                <video id="farewellVideo" class="farewell-video" controls preload="metadata" playsinline muted data-start-time="40">
+                    <source src="video.mp4" type="video/mp4">
                     Tu navegador no puede reproducir este video.
                 </video>
                 <div class="farewell-title">Fin</div>
@@ -2069,6 +2069,50 @@
                 result.textContent = rouletteNames[index];
                 rouletteSpinning = false;
             }, 4100);
+        }
+
+
+
+        const farewellVideo = document.getElementById('farewellVideo');
+
+        if (farewellVideo) {
+            let farewellVideoStarted = false;
+            const farewellStartTime = Number(farewellVideo.dataset.startTime || 40);
+
+            const playFarewellVideo = () => {
+                if (farewellVideoStarted) return;
+                farewellVideoStarted = true;
+
+                const startAndPlay = () => {
+                    farewellVideo.currentTime = farewellStartTime;
+                    const playPromise = farewellVideo.play();
+
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            farewellVideoStarted = false;
+                        });
+                    }
+                };
+
+                if (farewellVideo.readyState >= 1) {
+                    startAndPlay();
+                } else {
+                    farewellVideo.addEventListener('loadedmetadata', startAndPlay, { once: true });
+                }
+            };
+
+            const farewellObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+                        playFarewellVideo();
+                        farewellObserver.unobserve(farewellVideo);
+                    }
+                });
+            }, {
+                threshold: [0, 0.45, 0.75]
+            });
+
+            farewellObserver.observe(farewellVideo);
         }
 
         document.addEventListener('keydown', event => {
