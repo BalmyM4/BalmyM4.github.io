@@ -982,6 +982,237 @@
                 display: block;
             }
         }
+
+        .roulette-side-tab {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2000;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            border: 0;
+            border-radius: 18px 0 0 18px;
+            padding: 18px 12px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.22);
+        }
+
+        .roulette-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            background: rgba(15, 23, 42, 0.52);
+            backdrop-filter: blur(8px);
+        }
+
+        .roulette-overlay.active {
+            display: flex;
+        }
+
+        .roulette-panel {
+            width: min(960px, 96vw);
+            max-height: 92vh;
+            overflow: auto;
+            background: white;
+            border-radius: 34px;
+            padding: 28px;
+            box-shadow: 0 26px 80px rgba(15, 23, 42, 0.35);
+            border: 1px solid var(--line);
+            position: relative;
+        }
+
+        .roulette-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            border: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            color: var(--dark);
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .roulette-header {
+            padding-right: 46px;
+            margin-bottom: 22px;
+        }
+
+        .roulette-header span {
+            color: var(--blue);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.8rem;
+        }
+
+        .roulette-header h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            margin-top: 6px;
+            color: var(--dark);
+        }
+
+        .roulette-layout {
+            display: grid;
+            grid-template-columns: minmax(280px, 1fr) minmax(260px, 0.85fr);
+            gap: 24px;
+            align-items: center;
+        }
+
+        .wheel-wrap {
+            position: relative;
+            display: grid;
+            place-items: center;
+            min-height: 430px;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 38px solid var(--red);
+            z-index: 2;
+            filter: drop-shadow(0 8px 8px rgba(15, 23, 42, 0.2));
+        }
+
+        .roulette-wheel {
+            width: min(390px, 76vw);
+            height: min(390px, 76vw);
+            border-radius: 50%;
+            border: 12px solid white;
+            box-shadow: 0 22px 55px rgba(15, 23, 42, 0.22);
+            background: conic-gradient(
+                #dbeafe 0deg 20deg,
+                #ede9fe 20deg 40deg,
+                #dcfce7 40deg 60deg,
+                #fef3c7 60deg 80deg,
+                #fee2e2 80deg 100deg,
+                #e0f2fe 100deg 120deg,
+                #fce7f3 120deg 140deg,
+                #ccfbf1 140deg 160deg,
+                #ffedd5 160deg 180deg,
+                #dbeafe 180deg 200deg,
+                #ede9fe 200deg 220deg,
+                #dcfce7 220deg 240deg,
+                #fef3c7 240deg 260deg,
+                #fee2e2 260deg 280deg,
+                #e0f2fe 280deg 300deg,
+                #fce7f3 300deg 320deg,
+                #ccfbf1 320deg 340deg,
+                #ffedd5 340deg 360deg
+            );
+            position: relative;
+            transition: transform 4s cubic-bezier(0.12, 0.72, 0.12, 1);
+        }
+
+        .roulette-wheel::after {
+            content: "";
+            position: absolute;
+            inset: 36%;
+            border-radius: 50%;
+            background: white;
+            box-shadow: inset 0 0 0 1px var(--line), 0 10px 22px rgba(15, 23, 42, 0.12);
+        }
+
+        .wheel-label {
+            position: absolute;
+            width: 76px;
+            left: 50%;
+            top: 50%;
+            font-size: 0.55rem;
+            font-weight: 900;
+            color: #334155;
+            text-align: center;
+            line-height: 1.05;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .roulette-result-card {
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            padding: 24px;
+        }
+
+        .roulette-result-label {
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 10px;
+        }
+
+        .roulette-result {
+            min-height: 96px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            border-radius: 24px;
+            padding: 20px;
+            background: white;
+            color: var(--dark);
+            font-size: clamp(1.35rem, 3vw, 2.1rem);
+            font-weight: 950;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .roulette-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .roulette-actions button {
+            border: 0;
+            border-radius: 18px;
+            padding: 15px 16px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .roulette-actions button:hover {
+            transform: translateY(-2px);
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+        }
+
+        .instant-btn {
+            background: #111827;
+            color: white;
+        }
+
+        @media (max-width: 800px) {
+            .roulette-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .wheel-wrap {
+                min-height: 360px;
+            }
+        }
     </style>
 </head>
 
@@ -1319,6 +1550,13 @@
                 <article class="pill-card"><strong>Sin contraseña en red</strong><p>La contraseña no viaja directamente por la red.</p></article>
                 <article class="pill-card"><strong>Marcas de tiempo</strong><p>Ayudan a evitar ataques de repetición.</p></article>
                 <article class="pill-card"><strong>KDC</strong><p>Centro de Distribución de Claves que actúa como tercero confiable.</p></article>
+            </div>
+
+            <div class="summary-band">
+                <article class="mini-card">
+                    <strong>Idea para exponer</strong>
+                    <p>Kerberos no “confía porque sí”; usa tickets emitidos por un servidor confiable.</p>
+                </article>
                 <article class="mini-card">
                     <strong>Detalle importante</strong>
                     <p>Requiere relojes sincronizados para que los tickets temporales funcionen correctamente.</p>
@@ -1557,6 +1795,31 @@
             <p>Equipo 01 · Capa de aplicación y Kerberos · Redes de Datos Seguras</p>
         </div>
     </footer>
+    <button class="roulette-side-tab" onclick="openRoulette()">Ruleta</button>
+
+    <div class="roulette-overlay" id="rouletteOverlay">
+        <div class="roulette-panel">
+            <button class="roulette-close" onclick="closeRoulette()">×</button>
+            <div class="roulette-header">
+                <span>Dinámica aleatoria</span>
+                <h2>Ruleta de participantes</h2>
+            </div>
+            <div class="roulette-layout">
+                <div class="wheel-wrap">
+                    <div class="wheel-pointer"></div>
+                    <div class="roulette-wheel" id="rouletteWheel"></div>
+                </div>
+                <div class="roulette-result-card">
+                    <p class="roulette-result-label">Seleccionado</p>
+                    <div class="roulette-result" id="rouletteResult">Presiona un botón</div>
+                    <div class="roulette-actions">
+                        <button class="spin-btn" onclick="spinRoulette()">Girar ruleta</button>
+                        <button class="instant-btn" onclick="instantPick()">Instantáneo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function showQuestion(group, difficulty) {
@@ -1650,6 +1913,93 @@
             }
 
             questionBox.appendChild(feedback);
+        });
+
+
+        const rouletteNames = [
+            'Víctor Julian Arroyo Solano',
+            'Héctor Manuel Cisneros Rojas',
+            'Oscar Cortes Calderon',
+            'Joana María Dena Álvarez',
+            'Mauricio Fernández Herrera',
+            'Gerardo Daniel García Cerda',
+            'Frida Regina Gutiérrez Benavides',
+            'Itzel Hernandez Hernandez',
+            'Gabriel Hernández Mera',
+            'Daniel Orlando Jiménez Chávez',
+            'Axel Yael Juarez Andrade',
+            'Diego Medina Ramírez',
+            'Emily Isabela Mendoza Valdez',
+            'Armando Adair Núñez Badillo',
+            'Juan Emmanuel Ocampo Quezada',
+            'Arely Olvera González',
+            'Santiago Sánchez Medina',
+            'Miguel Adán Vargas López'
+        ];
+
+        let rouletteRotation = 0;
+        let rouletteReady = false;
+
+        function buildRouletteLabels() {
+            const wheel = document.getElementById('rouletteWheel');
+            if (!wheel || rouletteReady) return;
+
+            const total = rouletteNames.length;
+            const angleStep = 360 / total;
+
+            rouletteNames.forEach((name, index) => {
+                const label = document.createElement('div');
+                label.className = 'wheel-label';
+                label.textContent = name.split(' ').slice(0, 2).join(' ');
+                const angle = index * angleStep + angleStep / 2;
+                label.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-155px) rotate(-${angle}deg)`;
+                wheel.appendChild(label);
+            });
+
+            rouletteReady = true;
+        }
+
+        function openRoulette() {
+            buildRouletteLabels();
+            document.getElementById('rouletteOverlay').classList.add('active');
+        }
+
+        function closeRoulette() {
+            document.getElementById('rouletteOverlay').classList.remove('active');
+        }
+
+        function randomRouletteIndex() {
+            return Math.floor(Math.random() * rouletteNames.length);
+        }
+
+        function instantPick() {
+            const index = randomRouletteIndex();
+            document.getElementById('rouletteResult').textContent = rouletteNames[index];
+        }
+
+        function spinRoulette() {
+            const wheel = document.getElementById('rouletteWheel');
+            const result = document.getElementById('rouletteResult');
+            const index = randomRouletteIndex();
+            const total = rouletteNames.length;
+            const angleStep = 360 / total;
+            const targetAngle = index * angleStep + angleStep / 2;
+            const extraTurns = 360 * 6;
+            const pointerAngle = 270;
+
+            rouletteRotation += extraTurns + (pointerAngle - targetAngle);
+            wheel.style.transform = `rotate(${rouletteRotation}deg)`;
+            result.textContent = 'Girando...';
+
+            setTimeout(() => {
+                result.textContent = rouletteNames[index];
+            }, 4100);
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                closeRoulette();
+            }
         });
     </script>
 </body>
