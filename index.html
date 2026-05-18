@@ -1,189 +1,1663 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/Img/Logo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="Estilos/style.css">
-    <title>Legado Atávico</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equipo 01 · Capa de Aplicación y Kerberos</title>
+
+    <style>
+        :root {
+            --bg: #f5f7fb;
+            --paper: #ffffff;
+            --ink: #172033;
+            --muted: #637083;
+            --line: #d8e0ec;
+            --blue: #174ea6;
+            --blue-2: #e8f0fe;
+            --purple: #6d28d9;
+            --purple-2: #f0e8ff;
+            --cyan: #0891b2;
+            --cyan-2: #e0f7fb;
+            --green: #16803c;
+            --green-2: #e6f7ec;
+            --yellow: #b77900;
+            --yellow-2: #fff6d6;
+            --red: #c2410c;
+            --red-2: #ffe8dc;
+            --dark: #0f172a;
+            --shadow: 0 24px 70px rgba(15, 23, 42, 0.10);
+            --soft-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+            --radius: 28px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 10% 0%, rgba(23, 78, 166, 0.12), transparent 32%),
+                radial-gradient(circle at 90% 12%, rgba(109, 40, 217, 0.13), transparent 30%),
+                linear-gradient(180deg, #ffffff 0%, var(--bg) 45%, #ffffff 100%);
+            line-height: 1.65;
+        }
+
+        .page-shell {
+            width: min(1180px, 92%);
+            margin: auto;
+        }
+
+        header {
+            padding: 52px 0 36px;
+        }
+
+        .hero {
+            min-height: 460px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .hero-main {
+            background: var(--paper);
+            border: 1px solid rgba(216, 224, 236, 0.8);
+            border-radius: 40px;
+            box-shadow: var(--shadow);
+            padding: 64px 54px;
+            position: relative;
+            overflow: hidden;
+            min-height: 330px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-main::before {
+            content: "";
+            position: absolute;
+            width: 310px;
+            height: 310px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-2), var(--purple-2));
+            right: -120px;
+            top: -100px;
+        }
+
+        .hero-main::after {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 22px solid rgba(8, 145, 178, 0.15);
+            border-radius: 50%;
+            left: 32px;
+            bottom: 32px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 999px;
+            background: var(--blue-2);
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 0.88rem;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: clamp(2.45rem, 6vw, 5rem);
+            line-height: 1;
+            letter-spacing: -0.06em;
+            color: var(--dark);
+            max-width: 820px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+
+        .hero-side {
+            display: grid;
+            gap: 18px;
+        }
+
+        .team-strip {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 22px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--line);
+            border-radius: 34px;
+            box-shadow: var(--soft-shadow);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-strip::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-2), var(--cyan-2));
+            right: -60px;
+            top: -70px;
+        }
+
+        .team-number {
+            min-height: 160px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, var(--dark), var(--blue));
+            color: white;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            box-shadow: var(--soft-shadow);
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-number span {
+            display: block;
+            font-size: 0.82rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-weight: 800;
+            opacity: 0.8;
+        }
+
+        .team-number strong {
+            display: block;
+            font-size: 4rem;
+            line-height: 1;
+            letter-spacing: -0.08em;
+        }
+
+        .team-list {
+            position: relative;
+            z-index: 1;
+        }
+
+        .team-list h3 {
+            color: var(--dark);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .team-list ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .team-list li {
+            color: var(--muted);
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            padding: 12px 14px;
+            border-radius: 16px;
+        }
+
+        .info-tile {
+            border-radius: 34px;
+            background: rgba(255, 255, 255, 0.86);
+            border: 1px solid var(--line);
+            box-shadow: var(--soft-shadow);
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-tile h3 {
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .info-tile p,
+        .info-tile li {
+            color: var(--muted);
+        }
+
+        .info-tile ul {
+            padding-left: 18px;
+        }
+
+        .tile-blue {
+            background: linear-gradient(135deg, #ffffff, var(--blue-2));
+        }
+
+        .tile-purple {
+            background: linear-gradient(135deg, #ffffff, var(--purple-2));
+        }
+
+        .tile-cyan {
+            background: linear-gradient(135deg, #ffffff, var(--cyan-2));
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.84);
+            backdrop-filter: blur(14px);
+            border-block: 1px solid rgba(216, 224, 236, 0.85);
+        }
+
+        .nav-inner {
+            width: min(1180px, 92%);
+            margin: auto;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 14px 0;
+        }
+
+        .nav-inner a {
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 10px 16px;
+            border-radius: 999px;
+            color: var(--ink);
+            font-weight: 800;
+            font-size: 0.9rem;
+            transition: 0.22s ease;
+        }
+
+        .nav-inner a:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        main {
+            padding: 64px 0;
+        }
+
+        .section {
+            margin-bottom: 86px;
+            scroll-margin-top: 90px;
+        }
+
+        .section-head {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 26px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .letter {
+            width: 96px;
+            height: 96px;
+            border-radius: 30px;
+            display: grid;
+            place-items: center;
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: white;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            box-shadow: var(--soft-shadow);
+        }
+
+        .section-head span {
+            display: block;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 900;
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+        }
+
+        .section-head h2 {
+            color: var(--dark);
+            font-size: clamp(1.8rem, 4vw, 3.1rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--soft-shadow);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h3 {
+            color: var(--dark);
+            margin-bottom: 12px;
+            font-size: 1.35rem;
+        }
+
+        .card p {
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .history-application-card {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .history-application-card h3 {
+            text-align: center;
+            font-size: 1.55rem;
+            margin-bottom: 18px;
+        }
+
+        .history-application-card p {
+            font-size: 1.08rem;
+            text-align: center;
+            max-width: 92%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card ul,
+        .card ol {
+            padding-left: 21px;
+            color: var(--muted);
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        .accent-left {
+            border-left: 9px solid var(--blue);
+        }
+
+        .accent-purple {
+            border-left-color: var(--purple);
+        }
+
+        .accent-cyan {
+            border-left-color: var(--cyan);
+        }
+
+        .timeline {
+            position: relative;
+            display: grid;
+            gap: 18px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            bottom: 18px;
+            width: 3px;
+            background: linear-gradient(var(--blue), var(--purple), var(--cyan));
+            border-radius: 99px;
+        }
+
+        .time-item {
+            position: relative;
+            padding-left: 58px;
+        }
+
+        .time-item::before {
+            content: "";
+            position: absolute;
+            left: 9px;
+            top: 4px;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: white;
+            border: 7px solid var(--blue);
+            z-index: 2;
+        }
+
+        .time-item:nth-child(even)::before {
+            border-color: var(--purple);
+        }
+
+        .time-item strong {
+            display: block;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .time-item p {
+            color: var(--muted);
+        }
+
+        .summary-band {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .mini-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+        }
+
+        .mini-card strong {
+            display: block;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .mini-card p {
+            color: var(--muted);
+        }
+
+        .pill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .pill-card {
+            padding: 22px;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+        }
+
+        .pill-card strong {
+            display: block;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .pill-card p {
+            color: var(--muted);
+        }
+
+        .flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            align-items: stretch;
+        }
+
+        .flow-step {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 22px;
+            min-height: 150px;
+            box-shadow: var(--soft-shadow);
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -17px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--blue);
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-step b {
+            display: inline-grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--blue-2);
+            color: var(--blue);
+            margin-bottom: 12px;
+        }
+
+        .flow-step p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 24px;
+            border: 1px solid var(--line);
+            box-shadow: var(--soft-shadow);
+            background: white;
+            margin-top: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+            background: white;
+        }
+
+        th {
+            background: var(--dark);
+            color: white;
+            text-align: left;
+            padding: 16px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--line);
+            color: var(--muted);
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .sector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        .sector {
+            padding: 24px;
+            background: white;
+            border-radius: 28px;
+            border: 1px solid var(--line);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .sector .number {
+            display: inline-grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: var(--cyan-2);
+            color: var(--cyan);
+            font-weight: 900;
+            margin-bottom: 14px;
+        }
+
+        .sector h3 {
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .sector p {
+            color: var(--muted);
+        }
+
+        .notice {
+            background: linear-gradient(135deg, #fff, #f8fafc);
+            border: 1px dashed #a9b7ca;
+            border-radius: 26px;
+            padding: 28px;
+            color: var(--muted);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .question-panel {
+            margin-top: 26px;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            box-shadow: var(--soft-shadow);
+            padding: 26px;
+        }
+
+        .question-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .question-top h3 {
+            color: var(--dark);
+        }
+
+        .question-top p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .difficulty-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .difficulty-buttons button {
+            min-height: 120px;
+            border: 0;
+            border-radius: 26px;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.22s ease;
+            text-align: left;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .difficulty-buttons button::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            right: -24px;
+            bottom: -28px;
+            background: rgba(255, 255, 255, 0.45);
+        }
+
+        .difficulty-buttons button::before {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            font-size: 0.78rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+        }
+
+        .difficulty-buttons button.easy::before {
+            content: "1 pto";
+        }
+
+        .difficulty-buttons button.medium::before {
+            content: "2 ptos";
+        }
+
+        .difficulty-buttons button.hard::before {
+            content: "3 ptos";
+        }
+
+        .difficulty-buttons button:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .easy {
+            background: var(--green-2);
+            color: var(--green);
+        }
+
+        .medium {
+            background: var(--yellow-2);
+            color: var(--yellow);
+        }
+
+        .hard {
+            background: var(--red-2);
+            color: var(--red);
+        }
+
+        .question-box {
+            display: none;
+            border-radius: 28px;
+            padding: 28px;
+            background: white;
+            border: 1px solid var(--line);
+        }
+
+        .question-box.active {
+            display: block;
+        }
+
+        .question-box h4 {
+            color: var(--dark);
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+
+        .question-box[id$="-easy"] h4 {
+            color: var(--green);
+        }
+
+        .question-box[id$="-medium"] h4 {
+            color: var(--yellow);
+        }
+
+        .question-box[id$="-hard"] h4 {
+            color: var(--red);
+        }
+
+        .question-box[id$="-easy"] {
+            border-top: 7px solid var(--green);
+        }
+
+        .question-box[id$="-medium"] {
+            border-top: 7px solid var(--yellow);
+        }
+
+        .question-box[id$="-hard"] {
+            border-top: 7px solid var(--red);
+        }
+
+        .curious-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .curious-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            box-shadow: var(--soft-shadow);
+            padding: 26px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curious-card::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            right: -42px;
+            top: -42px;
+            background: linear-gradient(135deg, var(--blue-2), var(--purple-2));
+        }
+
+        .curious-card h3 {
+            color: var(--dark);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .curious-card p {
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        .question-box ol {
+            display: grid;
+            gap: 10px;
+            padding-left: 24px;
+            color: var(--muted);
+        }
+
+        .question-box li {
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--line);
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .question-box li:hover {
+            transform: translateX(4px);
+            background: white;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+        }
+
+        .question-box li.selected-correct {
+            font-weight: 800;
+        }
+
+        .question-box li.selected-correct.easy-correct {
+            background: var(--green-2);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .question-box li.selected-correct.medium-correct {
+            background: var(--yellow-2);
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .question-box li.selected-correct.hard-correct {
+            background: var(--red-2);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .question-box li.selected-incorrect {
+            background: #111827;
+            border-color: #111827;
+            color: white;
+            font-weight: 800;
+        }
+
+        .answer-feedback {
+            margin-top: 18px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            font-weight: 900;
+            border: 1px solid transparent;
+        }
+
+        .answer-feedback.correct.easy-feedback {
+            color: var(--green);
+            background: var(--green-2);
+            border-color: var(--green);
+        }
+
+        .answer-feedback.correct.medium-feedback {
+            color: var(--yellow);
+            background: var(--yellow-2);
+            border-color: var(--yellow);
+        }
+
+        .answer-feedback.correct.hard-feedback {
+            color: var(--red);
+            background: var(--red-2);
+            border-color: var(--red);
+        }
+
+        .answer-feedback.incorrect {
+            color: white;
+            background: #111827;
+            border-color: #111827;
+        }
+
+        .answer-feedback.pending {
+            color: var(--muted);
+            background: #f8fafc;
+            border-color: var(--line);
+        }
+
+        .return-button {
+            margin-top: 22px;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            background: var(--dark);
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .references li {
+            margin-bottom: 12px;
+        }
+
+        footer {
+            margin-top: 40px;
+            background: var(--dark);
+            color: white;
+            padding: 42px 0;
+        }
+
+        footer p {
+            color: #cbd5e1;
+            text-align: center;
+        }
+
+        @media (max-width: 980px) {
+            .hero,
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .flow {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: auto;
+                bottom: -26px;
+                transform: translateX(50%);
+            }
+
+            .flow-step:last-child::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .hero-main {
+                padding: 34px 24px;
+                min-height: 280px;
+            }
+
+            .team-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .team-list ul {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head {
+                grid-template-columns: 1fr;
+            }
+
+            .letter {
+                width: 72px;
+                height: 72px;
+                font-size: 1.8rem;
+                border-radius: 22px;
+            }
+
+            .difficulty-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .question-top {
+                display: block;
+            }
+        }
+    </style>
 </head>
-    
+
 <body>
+    <header>
+        <div class="page-shell hero">
+            <section class="hero-main">
+                <span class="badge">Lab. Redes de Datos Seguras · Facultad de Ingeniería</span>
+                <h1>Capa de aplicación y Kerberos</h1>
+            </section>
 
-    <!---------------------- Navbar ---------------------->
-    <div class="navbar" id="navbar">
-        
-        <div class="navbar-right">
-            <img src="../Img/UNAM.png" alt="UNAM">
+            <aside class="hero-side">
+                <article class="team-strip">
+                    <div class="team-number">
+                        <div>
+                            <span>Equipo</span>
+                            <strong>01</strong>
+                        </div>
+                    </div>
+
+                    <div class="team-list">
+                        <h3>Integrantes</h3>
+                        <ul>
+                            <li>Francisco Javier Rosas Martínez</li>
+                            <li>Gabriel Patricio Balam Flores</li>
+                            <li>Kevin Uriel Jiménez Tejeda</li>
+                            <li>Luis Carlos Hernández Domínguez</li>
+                        </ul>
+                    </div>
+                </article>
+            </aside>
         </div>
+    </header>
 
-        <div class="navbar-center" id="navbar-center">
-            <a href="#inicio">Inicio</a>
-            <a href="#proceso">Proceso</a>
-            <a href="#memoria">Memoria</a>
-            <a href="#croquis">Croquis</a>
-            <a href="#vistas">Arquitectonico</a>
+    <nav>
+        <div class="nav-inner">
+            <a href="#historia">1. Historia</a>
+            <a href="#objetivos">2. Objetivos</a>
+            <a href="#presentacion-caracteristicas">3. Presentación</a>
+            <a href="#presentacion-uso">4. Uso presentación</a>
+            <a href="#aplicacion-mexico">5. Aplicación en México</a>
+            <a href="#kerberos-caracteristicas">6. Kerberos</a>
+            <a href="#uso">7. Uso Kerberos</a>
+            <a href="#mexico">8. Kerberos en México</a>
+            <a href="#curiosos">9. Datos curiosos</a>
+            <a href="#referencias">Referencias</a>
         </div>
+    </nav>
 
-        <div class="navbar-left">
-            <img src="../Img/FA.png" alt="Facultad de Arquitectura">
-        </div>
-    </div>
-
-    <!---------------------- Inicio ---------------------->
-    <section id="inicio" class="inicio-section">
-        <h2>UNA ARQUITECTURA DE<br><span>DIFERENTES EPOCAS</span></h2>
-
-        <div class="inicio-content">
-
-            <div class="inicio-text">
-                <p>Este proyecto nace de la idea de rescatar a las culturas prehispánicas y unirlas a una forma contemporánea, creando un conjunto del parque primavera que permita a los habitantes y visitantes recorrer este lugar de tal forma que retrocedamos el tiempo a aquellos que nos precedieron, el proyecto se pensó con la finalidad de unir a la comunidad Oaxacaxaqueña y revitalizar este espacio, actualmente en estado desértico.</p>
+    <main class="page-shell">
+        <section id="historia" class="section">
+            <div class="section-head">
+                <div class="letter">1</div>
+                <div>
+                    <span>Historia</span>
+                    <h2>De la estandarización de redes a Kerberos</h2>
+                </div>
             </div>
 
-            <div class="inicio-recuadro">
-                <p class="recuadro-titulo"><br>PROYECTO FINAL CUARTO<br><span>SEMESTRE: LEGADO ATÁVICO</span><br></p>
-                <p class="recuadro-subtitulo">INTEGRANTES DEL EQUIPO 4:</p>
+            <div class="two-column">
+                <article class="card accent-left history-application-card">
+                    <h3>Capa de aplicación</h3>
+                    <p>
+                        La capa de aplicación se entiende dentro de la historia del modelo OSI. En los años 70 y 80, los sistemas
+                        informáticos comenzaron a conectarse cada vez más, pero cada fabricante usaba soluciones propias de red.
+                    </p>
+                    <p>
+                        Para resolver ese problema, ISO y el CCITT impulsaron un modelo estandarizado. En 1984, ISO publicó formalmente
+                        el modelo OSI, cuyo enfoque por capas ayudó a que sistemas diferentes pudieran comunicarse.
+                    </p>
+                    <p>
+                        Dentro de ese modelo, la capa de aplicación es la que usan las aplicaciones de software para iniciar la
+                        comunicación con la red.
+                    </p>
+                </article>
 
-                <ul class="recuadro-integrantes">
-                    <li>ALVAREZ GOMEZ MANUEL ISAAC</li>
-                    <li>DAMIAN ROLDAN XANATH CLIO</li>
-                    <li>RIZO MORENO JOSÉ ADOLFO</li>
+                <article class="card accent-left accent-purple">
+                    <h3>Kerberos</h3>
+                    <div class="timeline">
+                        <div class="time-item">
+                            <strong>1967 · Bellfield</strong>
+                            <p>Usaba un Centro de Distribución de Claves para comunicaciones seguras.</p>
+                        </div>
+                        <div class="time-item">
+                            <strong>1978 · Needham-Schroeder</strong>
+                            <p>Adaptó ideas previas para redes de computadoras.</p>
+                        </div>
+                        <div class="time-item">
+                            <strong>1985 · MIT</strong>
+                            <p>Eric Jaeger y Cliff Neuman agregaron nuevas ideas al protocolo como parte de su tesis.</p>
+                        </div>
+                        <div class="time-item">
+                            <strong>1987 · Kerberos</strong>
+                            <p>Cliff Neuman y Steve Miller desarrollaron Kerberos en el proyecto Athena del MIT.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="question-panel" data-question-group="historia-osi">
+                <div class="question-top">
+                    <div>
+                        <h3>Pregunta de refuerzo · Historia del modelo OSI</h3>
+                        <p>Selecciona el nivel de dificultad.</p>
+                    </div>
+                </div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('historia-osi', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('historia-osi', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('historia-osi', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="historia-osi-easy"><h4>¿Qué problema impulsó la creación de un modelo de red estandarizado como OSI?</h4><ol type="A"><li data-feedback="Los fabricantes no usaban exactamente los mismos protocolos; ese era el problema que se buscaba resolver.">Que todos los fabricantes usaban exactamente los mismos protocolos.</li><li data-feedback="Kerberos pertenece a autenticación; no fue la razón principal para crear OSI.">Que las redes solo funcionaban si usaban Kerberos.</li><li data-correct="true">Que cada fabricante desarrollaba sus propias soluciones de red.</li><li data-feedback="Las aplicaciones sí necesitaban comunicarse en red; el problema era la falta de estandarización.">Que las aplicaciones ya no necesitaban comunicarse en red.</li></ol><button class="return-button" onclick="resetQuestion('historia-osi')">Volver a elegir</button></div>
+                <div class="question-box" id="historia-osi-medium"><h4>¿Qué ventaja aportó organizar el modelo OSI en capas?</h4><ol type="A"><li data-correct="true">Permitió que cada capa resolviera una función específica dentro de la comunicación.</li><li data-feedback="OSI buscaba reducir la incompatibilidad; no permitir protocolos incompatibles sin consecuencias.">Permitió que cada fabricante mantuviera protocolos incompatibles sin afectar la red.</li><li data-feedback="La capa de aplicación no concentra todas las funciones; cada capa cumple una función específica.">Hizo que la capa de aplicación se encargara de todas las funciones del modelo.</li><li data-feedback="Las aplicaciones siguen necesitando servicios de red; OSI organiza cómo se realiza esa comunicación.">Hizo que las aplicaciones se comunicaran sin depender de servicios de red.</li></ol><button class="return-button" onclick="resetQuestion('historia-osi')">Volver a elegir</button></div>
+                <div class="question-box" id="historia-osi-hard"><h4>Si una empresa usaba una arquitectura propia antes de la estandarización OSI, ¿cuál sería el problema más probable al conectarse con sistemas de otro fabricante?</h4><ol type="A"><li data-feedback="El problema era de arquitectura y protocolos, no solo del programa visible para el usuario.">Podrían comunicarse solo si ambos sistemas usaban la misma aplicación visible.</li><li data-correct="true">Podrían tener dificultades por diferencias en arquitectura o protocolos subyacentes.</li><li data-feedback="Antes de la publicación formal de OSI, esa estandarización global todavía no operaba.">Podrían conectarse automáticamente porque OSI ya funcionaba como estándar global.</li><li data-feedback="Kerberos autentica usuarios; no resuelve por sí mismo la interoperabilidad entre arquitecturas de red.">Podrían evitar la capa de aplicación y comunicarse directamente con Kerberos.</li></ol><button class="return-button" onclick="resetQuestion('historia-osi')">Volver a elegir</button></div>
+            </div>
+
+            <div class="question-panel" data-question-group="historia-kerberos">
+                <div class="question-top">
+                    <div>
+                        <h3>Pregunta de refuerzo · Historia de Kerberos</h3>
+                        <p>Selecciona el nivel de dificultad.</p>
+                    </div>
+                </div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('historia-kerberos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('historia-kerberos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('historia-kerberos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="historia-kerberos-easy"><h4>¿En qué proyecto se desarrolló Kerberos como sistema de autenticación seguro?</h4><ol type="A"><li data-feedback="Bellfield fue un antecedente histórico; Kerberos se desarrolló en el proyecto Athena.">Proyecto Bellfield.</li><li data-correct="true">Proyecto Athena del MIT.</li><li data-feedback="El CCITT participó en el modelo OSI; no en el proyecto de Kerberos.">Proyecto CCITT.</li><li data-feedback="OSI se relaciona con estandarización de redes; Kerberos se desarrolló en Athena.">Proyecto OSI de ISO.</li></ol><button class="return-button" onclick="resetQuestion('historia-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="historia-kerberos-medium"><h4>¿Qué relación tiene el protocolo Needham-Schroeder con Kerberos?</h4><ol type="A"><li data-feedback="El orden está invertido: Needham-Schroeder fue anterior a Kerberos.">Fue una evolución posterior de Kerberos.</li><li data-feedback="ISO se relaciona con el modelo OSI; no con la creación de Needham-Schroeder.">Fue creado por ISO para definir la capa de aplicación.</li><li data-correct="true">Fue un antecedente que influyó en el desarrollo de Kerberos.</li><li data-feedback="Needham-Schroeder pertenece a la historia de Kerberos; no fue nombre oficial del modelo OSI.">Fue el primer nombre oficial del modelo OSI.</li></ol><button class="return-button" onclick="resetQuestion('historia-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="historia-kerberos-hard"><h4>Considerando Bellfield, Needham-Schroeder y Kerberos, ¿qué idea técnica se conserva en la evolución de estos sistemas?</h4><ol type="A"><li data-feedback="Kerberos busca evitar que la contraseña viaje directamente al servicio final.">La autenticación depende de enviar la contraseña directamente al servicio final.</li><li data-correct="true">La seguridad se apoya en un centro confiable que participa en la distribución de claves o tickets.</li><li data-feedback="La evolución mantiene la idea de una entidad confiable que valida o distribuye claves.">El cliente obtiene acceso sin que exista una entidad que valide su identidad.</li><li data-feedback="El servidor final no sustituye al KDC; Kerberos depende del tercero confiable.">El servidor final sustituye al KDC para evitar depender de terceros confiables.</li></ol><button class="return-button" onclick="resetQuestion('historia-kerberos')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="objetivos" class="section">
+            <div class="section-head">
+                <div class="letter">2</div>
+                <div>
+                    <span>Objetivos</span>
+                    <h2>Para qué sirven</h2>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <article class="card accent-left accent-cyan">
+                    <h3>Capa de aplicación</h3>
+                    <p>
+                        Su objetivo es proveer servicios de red a las aplicaciones usadas por los usuarios, permitiendo comunicación
+                        eficaz y segura entre programas dentro de una red.
+                    </p>
+                </article>
+
+                <article class="card accent-left accent-purple">
+                    <h3>Kerberos</h3>
+                    <p>
+                        Su objetivo es ofrecer autenticación segura para que usuarios verifiquen su identidad sin enviar contraseñas
+                        por la red, reduciendo el riesgo de intercepción.
+                    </p>
+                </article>
+            </div>
+
+            <div class="question-panel" data-question-group="objetivos">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Objetivos</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('objetivos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('objetivos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('objetivos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="objetivos-easy"><h4>¿Cuál es el objetivo principal de la capa de aplicación?</h4><ol type="A"><li data-feedback="Cifrar datos puede formar parte de otros procesos, pero no es el objetivo principal de la capa de aplicación.">Cifrar todos los datos antes de que salgan del equipo.</li><li data-correct="true">Proveer servicios de red a las aplicaciones usadas por los usuarios.</li><li data-feedback="Emitir tickets corresponde a Kerberos, no al objetivo principal de la capa de aplicación.">Emitir tickets para que los usuarios accedan a servicios.</li><li data-feedback="La sincronización de relojes es importante en Kerberos, no en el objetivo general de la capa de aplicación.">Verificar que los relojes de los equipos estén sincronizados.</li></ol><button class="return-button" onclick="resetQuestion('objetivos')">Volver a elegir</button></div>
+                <div class="question-box" id="objetivos-medium"><h4>¿Qué diferencia mejor el objetivo de la capa de aplicación frente al objetivo de Kerberos?</h4><ol type="A"><li data-correct="true">La capa de aplicación facilita servicios de red para programas; Kerberos verifica identidades sin enviar contraseñas por la red.</li><li data-feedback="Invierte las funciones: los tickets corresponden a Kerberos; web y correo se relacionan con la capa de aplicación.">La capa de aplicación autentica usuarios mediante tickets; Kerberos permite que las apps usen servicios como web o correo.</li><li data-feedback="La capa de aplicación no sustituye servicios de red; Kerberos no organiza la representación de datos.">La capa de aplicación sustituye los servicios de red; Kerberos solo organiza cómo se muestran los datos.</li><li data-feedback="No cumplen el mismo objetivo: la capa de aplicación ofrece servicios de red; Kerberos autentica de forma segura.">La capa de aplicación y Kerberos cumplen el mismo objetivo, pero en capas distintas del modelo OSI.</li></ol><button class="return-button" onclick="resetQuestion('objetivos')">Volver a elegir</button></div>
+                <div class="question-box" id="objetivos-hard"><h4>Una empresa quiere que sus usuarios accedan a correo, archivos y plataformas internas, pero sin escribir ni enviar su contraseña cada vez que usan un servicio. ¿Qué análisis es más correcto?</h4><ol type="A"><li data-feedback="La capa de aplicación permite usar servicios de red; no elimina por sí misma la autenticación.">La capa de aplicación elimina la autenticación porque ya proporciona los servicios de red.</li><li data-feedback="Kerberos no reemplaza los servicios de red; autentica el acceso a ellos.">Kerberos reemplaza los servicios de red, por eso el correo y los archivos ya no dependen de aplicaciones.</li><li data-correct="true">Kerberos permite autenticar el acceso a servicios sin reenviar la contraseña continuamente.</li><li data-feedback="La capa de aplicación no tiene como objetivo cifrar contraseñas; el KDC no decide la representación de datos.">La capa de aplicación cifra las contraseñas y el KDC solo decide cómo se representan los datos.</li></ol><button class="return-button" onclick="resetQuestion('objetivos')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="presentacion-caracteristicas" class="section">
+            <div class="section-head">
+                <div class="letter">3</div>
+                <div>
+                    <span>Capa de aplicación</span>
+                    <h2>Características principales</h2>
+                </div>
+            </div>
+
+            <div class="pill-grid">
+                <article class="pill-card"><strong>Interfaz entre usuario y red</strong><p>Permite que programas y aplicaciones accedan a recursos de red para enviar y recibir información.</p></article>
+                <article class="pill-card"><strong>Servicios de red</strong><p>Proporciona servicios que las aplicaciones necesitan para funcionar correctamente dentro de una red.</p></article>
+                <article class="pill-card"><strong>Protocolos de aplicación</strong><p>Usa protocolos como HTTP, HTTPS, FTP, SMTP, POP3, IMAP y DNS.</p></article>
+                <article class="pill-card"><strong>Recursos compartidos</strong><p>Permite acceder a archivos, impresoras, servidores, bases de datos y otros recursos disponibles en red.</p></article>
+                <article class="pill-card"><strong>Comunicación entre aplicaciones</strong><p>Facilita el intercambio de información entre programas, incluso en dispositivos o sistemas distintos.</p></article>
+                <article class="pill-card"><strong>Autenticación y acceso</strong><p>Algunas aplicaciones verifican la identidad del usuario antes de permitir el acceso a servicios o recursos.</p></article>
+            </div>
+
+            <div class="summary-band">
+                <article class="mini-card"><strong>Ejemplos de servicios</strong><p>Navegación web, videollamadas, streaming, almacenamiento en la nube y plataformas educativas.</p></article>
+                <article class="mini-card"><strong>Protocolos clave</strong><p>HTTP/HTTPS, FTP, SMTP, POP3, IMAP y DNS permiten diferentes servicios de comunicación en red.</p></article>
+                <article class="mini-card"><strong>Acceso a recursos</strong><p>La capa permite acceder a archivos, impresoras, servidores, bases de datos y otros recursos compartidos.</p></article>
+            </div>
+
+            <div class="question-panel" data-question-group="aplicacion-caracteristicas">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Características de aplicación</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('aplicacion-caracteristicas', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('aplicacion-caracteristicas', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('aplicacion-caracteristicas', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="aplicacion-caracteristicas-easy"><h4>¿Qué función cumple la capa de aplicación como interfaz entre usuario y red?</h4><ol type="A"><li data-correct="true">Permite que los programas accedan a servicios y recursos de red.</li><li data-feedback="Eso corresponde a capas más bajas, no a la capa de aplicación.">Convierte todos los datos en señales físicas para enviarlos.</li><li data-feedback="La asignación de direcciones IP no es función principal de esta capa.">Asigna direcciones IP a cada equipo conectado.</li><li data-feedback="La división en paquetes no corresponde a la capa de aplicación.">Divide los paquetes antes de enviarlos por la red.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-caracteristicas')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-caracteristicas-medium"><h4>¿Cuál opción describe mejor una característica general de la capa de aplicación?</h4><ol type="A"><li data-feedback="La capa de aplicación no solo muestra datos; permite usar servicios de red.">Se limita a mostrar datos ya procesados por otras capas.</li><li data-correct="true">Permite que diferentes programas intercambien información mediante servicios de red.</li><li data-feedback="No reemplaza protocolos; trabaja mediante protocolos de aplicación.">Reemplaza los protocolos de comunicación cuando las aplicaciones son compatibles.</li><li data-feedback="También facilita la comunicación entre aplicaciones, no solo el acceso aislado a servicios.">Permite que las aplicaciones accedan a servicios, pero sin intervenir en la comunicación entre programas.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-caracteristicas')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-caracteristicas-hard"><h4>Dos aplicaciones en equipos distintos necesitan intercambiar información dentro de una red. Además, el servicio debe funcionar aunque los equipos usen sistemas operativos diferentes. ¿Qué análisis corresponde mejor a la capa de aplicación?</h4><ol type="A"><li data-correct="true">La capa de aplicación permite el intercambio de información mediante servicios de red, aunque los sistemas sean distintos.</li><li data-feedback="La capa de aplicación puede facilitar comunicación entre programas en dispositivos o sistemas distintos.">La capa de aplicación solo funciona si ambos equipos usan el mismo sistema operativo y la misma aplicación.</li><li data-feedback="La compatibilidad no elimina el uso de protocolos de aplicación.">La capa de aplicación evita el uso de protocolos cuando las aplicaciones ya son compatibles.</li><li data-feedback="La autenticación puede existir en algunas aplicaciones, pero no define toda la función de la capa.">La capa de aplicación se limita a validar la identidad del usuario antes de permitir cualquier comunicación.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-caracteristicas')">Volver a elegir</button></div>
+            </div>
+
+            <div class="question-panel" data-question-group="aplicacion-protocolos">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Protocolos y recursos</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('aplicacion-protocolos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('aplicacion-protocolos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('aplicacion-protocolos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="aplicacion-protocolos-easy"><h4>¿Cuál de los siguientes protocolos se relaciona con la navegación web?</h4><ol type="A"><li data-feedback="SMTP se usa para envío de correo electrónico.">SMTP</li><li data-feedback="FTP se relaciona con transferencia de archivos.">FTP</li><li data-correct="true">HTTP/HTTPS</li><li data-feedback="IMAP se usa para recepción o consulta de correo electrónico.">IMAP</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-protocolos')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-protocolos-medium"><h4>¿Qué relación existe entre los protocolos de aplicación y los servicios de red?</h4><ol type="A"><li data-correct="true">Los protocolos de aplicación permiten que servicios como web, correo o transferencia de archivos funcionen.</li><li data-feedback="Los protocolos no sustituyen recursos; permiten acceder o comunicarse con servicios.">Los protocolos de aplicación sustituyen a los recursos compartidos dentro de una red.</li><li data-feedback="Pueden usarse con o sin autenticación, según el servicio.">Los protocolos de aplicación solo se usan cuando no hay autenticación de usuarios.</li><li data-feedback="Un protocolo no vuelve público un recurso por sí mismo.">Los protocolos de aplicación convierten cualquier recurso local en un servidor público.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-protocolos')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-protocolos-hard"><h4>Un usuario accede a una carpeta compartida, consulta una base de datos y usa correo institucional desde una misma red. ¿Qué idea explica mejor el papel de la capa de aplicación?</h4><ol type="A"><li data-feedback="Pertenecer a la misma capa no significa usar el mismo protocolo.">Todos esos servicios dependen del mismo protocolo porque pertenecen a la misma capa.</li><li data-correct="true">La capa de aplicación permite acceder a distintos recursos, pero cada servicio puede usar protocolos diferentes.</li><li data-feedback="Archivos y bases de datos también pueden ser recursos accesibles por red.">La capa de aplicación solo interviene en el correo, porque los archivos y bases de datos pertenecen a hardware.</li><li data-feedback="La autenticación no elimina la comunicación por red.">Los recursos compartidos dejan de usar red cuando el usuario ya está autenticado.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-protocolos')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="presentacion-uso" class="section">
+            <div class="section-head">
+                <div class="letter">4</div>
+                <div>
+                    <span>Capa de aplicación</span>
+                    <h2>Dónde y cuándo se emplea</h2>
+                </div>
+            </div>
+
+            <article class="card accent-left">
+                <h3>Uso general</h3>
+                <p>
+                    La capa de aplicación se emplea en sistemas y servicios de red donde los usuarios interactúan con aplicaciones que usan Internet o una red local.
+                    Es la capa más cercana al usuario porque permite la comunicación entre las aplicaciones y la red.
+                </p>
+            </article>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Ejemplo</th>
+                            <th>Protocolos o función</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Navegación web</td><td>Chrome, Firefox o páginas de Internet</td><td>HTTP y HTTPS.</td></tr>
+                        <tr><td>Correo electrónico</td><td>Envío y recepción de correos</td><td>SMTP, POP3 e IMAP.</td></tr>
+                        <tr><td>Mensajería y redes sociales</td><td>WhatsApp, Telegram o Messenger</td><td>Envío de mensajes y archivos.</td></tr>
+                        <tr><td>Transferencia de archivos</td><td>Subir o descargar documentos, imágenes o videos</td><td>Intercambio de información con servidores.</td></tr>
+                        <tr><td>Videollamadas y streaming</td><td>Videoconferencias y plataformas de video</td><td>Transmisión de información multimedia.</td></tr>
+                        <tr><td>Servicios en la nube</td><td>Almacenamiento digital</td><td>Acceso remoto a archivos.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary-band">
+                <article class="mini-card"><strong>¿Cuándo se usa?</strong><p>Al abrir una página web, enviar correos, iniciar sesión, mandar mensajes, hacer videollamadas o subir archivos.</p></article>
+                <article class="mini-card"><strong>Resumen</strong><p>Funciona cada vez que una aplicación necesita comunicarse por red para ofrecer un servicio al usuario.</p></article>
+            </div>
+
+            <div class="question-panel" data-question-group="aplicacion-usos">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Servicios de uso diario</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('aplicacion-usos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('aplicacion-usos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('aplicacion-usos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="aplicacion-usos-easy"><h4>¿En cuál de estos casos se emplea la capa de aplicación?</h4><ol type="A"><li data-feedback="Manipular el cable no corresponde al uso de servicios de aplicación.">Al doblar físicamente un cable de red.</li><li data-correct="true">Al abrir una página web desde un navegador.</li><li data-feedback="Medir corriente no corresponde a comunicación entre aplicaciones y red.">Al medir la corriente eléctrica de un router.</li><li data-feedback="Conectar un monitor no implica un servicio de red.">Al conectar un monitor a una computadora.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-usos')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-usos-medium"><h4>¿Qué opción relaciona correctamente un servicio cotidiano con la capa de aplicación?</h4><ol type="A"><li data-correct="true">Correo electrónico: envío y recepción de mensajes mediante servicios de red.</li><li data-feedback="La navegación web usa servicios de red, no asignación física de conectores.">Navegación web: asignación física de conectores entre equipos.</li><li data-feedback="Las videollamadas usan protocolos y servicios de red; no los eliminan.">Videollamadas: eliminación de protocolos para transmitir multimedia.</li><li data-feedback="La nube implica acceso remoto, no uso exclusivo de archivos locales.">Servicios en la nube: uso exclusivo de archivos guardados localmente.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-usos')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-usos-hard"><h4>Un usuario entra a una plataforma, descarga un documento, envía un mensaje y reproduce un video. ¿Qué idea explica mejor el papel de la capa de aplicación?</h4><ol type="A"><li data-feedback="Usar una sola aplicación no significa usar un solo servicio de red.">Todos los casos usan el mismo servicio porque ocurren desde una sola aplicación.</li><li data-feedback="Iniciar sesión es solo uno de los posibles usos de servicios de red.">La capa de aplicación interviene solo cuando el usuario inicia sesión.</li><li data-correct="true">La capa de aplicación permite distintos servicios de red según lo que el usuario realiza.</li><li data-feedback="El contenido multimedia también puede transmitirse mediante servicios de aplicación.">Los servicios dejan de pertenecer a la capa de aplicación cuando hay archivos multimedia.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-usos')">Volver a elegir</button></div>
+            </div>
+
+            <div class="question-panel" data-question-group="aplicacion-cuando">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Cuándo se emplea</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('aplicacion-cuando', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('aplicacion-cuando', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('aplicacion-cuando', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="aplicacion-cuando-easy"><h4>¿Cuándo entra en funcionamiento la capa de aplicación?</h4><ol type="A"><li data-correct="true">Cuando una aplicación necesita comunicarse por red para ofrecer un servicio.</li><li data-feedback="Apagar el equipo no activa un servicio de red.">Cuando el usuario apaga el equipo y desconecta la red.</li><li data-feedback="Cambiar la apariencia no implica comunicación con la red.">Cuando se cambia el color de la interfaz de una app.</li><li data-feedback="Instalar hardware no describe el uso de la capa de aplicación.">Cuando se instala físicamente una tarjeta de red.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-cuando')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-cuando-medium"><h4>¿Cuál situación representa mejor el “cuándo” se usa la capa de aplicación?</h4><ol type="A"><li data-feedback="Detectar hardware no equivale a usar servicios de aplicación.">Cuando el sistema operativo detecta que existe una tarjeta de red instalada.</li><li data-correct="true">Cuando una persona envía un correo, abre una página o sube un archivo.</li><li data-feedback="La capa de aplicación se relaciona con servicios solicitados por aplicaciones.">Cuando el cable transmite señales sin que exista un servicio solicitado.</li><li data-feedback="Estar encendido no implica uso de la capa de aplicación.">Cuando el equipo permanece encendido sin interacción con aplicaciones de red.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-cuando')">Volver a elegir</button></div>
+                <div class="question-box" id="aplicacion-cuando-hard"><h4>Un usuario tiene Internet activo, pero no abre páginas, no envía mensajes, no inicia sesión y no usa servicios en línea. Después abre una plataforma educativa y sube un archivo. ¿Qué análisis es más correcto?</h4><ol type="A"><li data-feedback="Tener conexión no basta; debe existir interacción con un servicio de red.">La capa de aplicación se usa todo el tiempo solo porque existe conexión a Internet.</li><li data-correct="true">La capa de aplicación se usa cuando la plataforma solicita un servicio de red para subir el archivo.</li><li data-feedback="La red en espera no representa por sí sola el uso de un servicio de aplicación.">La capa de aplicación solo se usa antes de abrir la plataforma, mientras la red está en espera.</li><li data-feedback="Subir el archivo sigue siendo una acción realizada mediante un servicio de red.">La capa de aplicación deja de intervenir cuando el archivo ya pertenece a una plataforma educativa.</li></ol><button class="return-button" onclick="resetQuestion('aplicacion-cuando')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="aplicacion-mexico" class="section">
+            <div class="section-head">
+                <div class="letter">5</div>
+                <div>
+                    <span>Capa de aplicación</span>
+                    <h2>¿Se usa en México?</h2>
+                </div>
+            </div>
+
+            <article class="card accent-left accent-cyan">
+                <h3>Sí, se usa diariamente</h3>
+                <p>
+                    La capa de aplicación se usa en México igual que en cualquier país con redes de computadoras e Internet.
+                    No es una tecnología exclusiva de un lugar, sino parte del funcionamiento de las comunicaciones en red dentro del modelo OSI y TCP/IP.
+                </p>
+            </article>
+
+            <div class="sector-grid" style="margin-top: 24px;">
+                <article class="sector"><div class="number">1</div><h3>Bancos y pagos electrónicos</h3><p>Aplicaciones bancarias y pagos en línea usan protocolos de aplicación para enviar y recibir información.</p></article>
+                <article class="sector"><div class="number">2</div><h3>Navegación web</h3><p>Al acceder a páginas desde un navegador se usan protocolos como HTTP o HTTPS.</p></article>
+                <article class="sector"><div class="number">3</div><h3>Correo electrónico</h3><p>Servicios de correo emplean protocolos como SMTP, POP3 e IMAP.</p></article>
+                <article class="sector"><div class="number">4</div><h3>Mensajería y videollamadas</h3><p>Aplicaciones como WhatsApp, Zoom o Teams funcionan mediante servicios de esta capa.</p></article>
+                <article class="sector"><div class="number">5</div><h3>Educación</h3><p>Universidades y escuelas, como la UNAM, usan plataformas virtuales para clases y tareas.</p></article>
+                <article class="sector"><div class="number">6</div><h3>Gobierno</h3><p>Trámites en línea, pagos y consultas en portales gubernamentales usan servicios de red.</p></article>
+            </div>
+
+            <article class="notice" style="margin-top: 24px;">
+                En pocas palabras: se usa al abrir páginas web, enviar mensajes, ver video en streaming, subir archivos a la nube o iniciar sesión en una plataforma.
+            </article>
+        </section>
+
+        <section id="kerberos-caracteristicas" class="section">
+            <div class="section-head">
+                <div class="letter">6</div>
+                <div>
+                    <span>Características principales</span>
+                    <h2>Lo esencial de Kerberos</h2>
+                </div>
+            </div>
+
+            <div class="pill-grid">
+                <article class="pill-card"><strong>Autenticación mutua</strong><p>Cliente y servidor verifican sus identidades.</p></article>
+                <article class="pill-card"><strong>TGT</strong><p>Ticket inicial con validez limitada para pedir acceso a otros servicios.</p></article>
+                <article class="pill-card"><strong>Single Sign-On</strong><p>El usuario inicia sesión una vez y accede a servicios permitidos.</p></article>
+                <article class="pill-card"><strong>Sin contraseña en red</strong><p>La contraseña no viaja directamente por la red.</p></article>
+                <article class="pill-card"><strong>Marcas de tiempo</strong><p>Ayudan a evitar ataques de repetición.</p></article>
+                <article class="pill-card"><strong>KDC</strong><p>Centro de Distribución de Claves que actúa como tercero confiable.</p></article>
+            </div>
+
+            <div class="summary-band">
+                <article class="mini-card">
+                    <strong>Idea para exponer</strong>
+                    <p>Kerberos no “confía porque sí”; usa tickets emitidos por un servidor confiable.</p>
+                </article>
+                <article class="mini-card">
+                    <strong>Detalle importante</strong>
+                    <p>Requiere relojes sincronizados para que los tickets temporales funcionen correctamente.</p>
+                </article>
+            </div>
+
+            <div class="question-panel" data-question-group="caracteristicas">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Características</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('caracteristicas', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('caracteristicas', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('caracteristicas', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="caracteristicas-easy"><h4>¿Qué significa que Kerberos use autenticación mutua?</h4><ol type="A"><li data-correct="true">Que el cliente y el servidor verifican sus identidades.</li><li data-feedback="Kerberos evita pedir o reenviar la contraseña en cada servicio.">Que el usuario escribe su contraseña en cada servicio.</li><li data-feedback="Los tickets tienen validez limitada.">Que todos los tickets tienen duración ilimitada.</li><li data-feedback="El KDC participa emitiendo tickets para acceder a servicios.">Que el KDC deja de participar después del inicio de sesión.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas')">Volver a elegir</button></div>
+                <div class="question-box" id="caracteristicas-medium"><h4>¿Qué relación hay entre el TGT y el Single Sign-On en Kerberos?</h4><ol type="A"><li data-feedback="El SSO se apoya en el TGT; no lo reemplaza.">El SSO reemplaza al TGT cuando el usuario entra al primer servicio.</li><li data-correct="true">El TGT permite solicitar acceso a servicios sin volver a introducir credenciales.</li><li data-feedback="El TGT no envía la contraseña a cada servidor.">El TGT guarda la contraseña para enviarla a cada servidor solicitado.</li><li data-feedback="El SSO funciona usando tickets, no eliminándolos.">El SSO elimina la necesidad de tickets dentro de la red.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas')">Volver a elegir</button></div>
+                <div class="question-box" id="caracteristicas-hard"><h4>Un usuario inicia sesión una vez y después accede a correo, archivos e intranet sin volver a escribir su contraseña. ¿Qué interpretación es más precisa?</h4><ol type="A"><li data-feedback="La autenticación sigue existiendo; se gestiona mediante tickets.">El usuario ya no necesita autenticación porque el primer servicio validó toda la red.</li><li data-feedback="Kerberos no entrega la contraseña del usuario a cada servicio.">El KDC entrega la contraseña del usuario a cada servicio para evitar nuevos inicios de sesión.</li><li data-correct="true">Kerberos usa tickets para permitir acceso a servicios autorizados después de la autenticación inicial.</li><li data-feedback="La autenticación mutua verifica identidades; no depende de cambiar la contraseña.">La autenticación mutua solo ocurre cuando el usuario cambia manualmente de contraseña.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas')">Volver a elegir</button></div>
+            </div>
+
+            <div class="question-panel" data-question-group="caracteristicas-seguridad">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Seguridad y tickets</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('caracteristicas-seguridad', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('caracteristicas-seguridad', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('caracteristicas-seguridad', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="caracteristicas-seguridad-easy"><h4>¿Qué característica de Kerberos reduce el riesgo de que una contraseña sea interceptada en la red?</h4><ol type="A"><li data-feedback="El tiempo de vida limita el uso de tickets, no describe directamente el manejo de la contraseña.">Que los tickets tienen tiempo de vida.</li><li data-feedback="Las marcas de tiempo ayudan contra ataques de repetición.">Que usa marcas de tiempo.</li><li data-correct="true">Que la contraseña no viaja directamente por la red.</li><li data-feedback="Acceder a varios servicios corresponde más al SSO.">Que el usuario puede acceder a varios servicios.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas-seguridad')">Volver a elegir</button></div>
+                <div class="question-box" id="caracteristicas-seguridad-medium"><h4>¿Para qué sirven las marcas de tiempo dentro de Kerberos?</h4><ol type="A"><li data-feedback="Las marcas de tiempo no clasifican aplicaciones por capa.">Para decidir qué aplicaciones pertenecen a la capa de aplicación.</li><li data-correct="true">Para evitar que mensajes válidos sean reutilizados fuera de tiempo.</li><li data-feedback="La contraseña no se guarda dentro del ticket para enviarse al servicio.">Para guardar la contraseña cifrada dentro del ticket.</li><li data-feedback="Las marcas de tiempo no sustituyen al KDC.">Para sustituir al KDC cuando el servidor ya conoce al usuario.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas-seguridad')">Volver a elegir</button></div>
+                <div class="question-box" id="caracteristicas-seguridad-hard"><h4>Un atacante captura un ticket válido y trata de usarlo después. ¿Qué combinación explica mejor por qué Kerberos puede rechazar ese intento?</h4><ol type="A"><li data-correct="true">El ticket tiene tiempo de vida y el autenticador incluye una marca temporal.</li><li data-feedback="Cambiar de aplicación no invalida automáticamente todos los tickets.">El usuario cambia de aplicación y el servidor borra automáticamente todos los tickets.</li><li data-feedback="Kerberos no confirma tickets enviando la contraseña al servidor.">El KDC envía la contraseña al servidor para confirmar que el ticket sigue activo.</li><li data-feedback="El KDC sigue siendo la entidad confiable para emitir tickets.">El cliente evita al KDC y valida el ticket directamente con cualquier servicio.</li></ol><button class="return-button" onclick="resetQuestion('caracteristicas-seguridad')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="uso" class="section">
+            <div class="section-head">
+                <div class="letter">7</div>
+                <div>
+                    <span>Dónde y cuándo se emplea</span>
+                    <h2>Kerberos en servicios reales</h2>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <article class="card accent-left">
+                    <h3>¿Qué es el KDC?</h3>
+                    <p>
+                        El KDC es el tercero de confianza en Kerberos. Emite tickets que demuestran la identidad de los usuarios.
+                    </p>
+                    <p>
+                        Cuando el usuario inicia sesión, recibe un TGT. Después, si quiere entrar a una aplicación, carpeta o impresora,
+                        el KDC emite un ticket específico para ese servicio.
+                    </p>
+                </article>
+
+                <article class="card accent-left accent-purple">
+                    <h3>¿Cuándo se usa?</h3>
+                    <p>
+                        Se utiliza cuando una organización necesita autenticación segura sin reenviar contraseñas constantemente.
+                        Es común en empresas, universidades, bancos, centros de datos y entornos mixtos Linux + Windows.
+                    </p>
+                </article>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Ejemplo</th>
+                            <th>Papel de Kerberos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Inicio de sesión</td><td>PC de empresa o universidad</td><td>Valida al usuario y entrega un TGT.</td></tr>
+                        <tr><td>Archivos compartidos</td><td>Carpetas de red</td><td>Entrega un ticket para acceder a la carpeta.</td></tr>
+                        <tr><td>Correo</td><td>Outlook o correo institucional</td><td>Autentica antes de enviar o recibir correos.</td></tr>
+                        <tr><td>Intranet</td><td>Recursos humanos o nómina</td><td>Permite acceso sin pedir contraseña otra vez.</td></tr>
+                        <tr><td>Impresión / VPN</td><td>Impresoras y acceso remoto</td><td>Verifica permisos antes de permitir el servicio.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <article class="card accent-left accent-cyan" style="margin-top: 24px;">
+                <h3>Flujo resumido</h3>
+                <div class="flow">
+                    <div class="flow-step"><b>1</b><p>El usuario inicia sesión.</p></div>
+                    <div class="flow-step"><b>2</b><p>El KDC valida identidad.</p></div>
+                    <div class="flow-step"><b>3</b><p>Se entrega un TGT.</p></div>
+                    <div class="flow-step"><b>4</b><p>Se solicita ticket para un servicio.</p></div>
+                    <div class="flow-step"><b>5</b><p>El usuario accede sin repetir contraseña.</p></div>
+                </div>
+            </article>
+
+            <div class="question-panel" data-question-group="uso-kerberos">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Uso de Kerberos</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('uso-kerberos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('uso-kerberos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('uso-kerberos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="uso-kerberos-easy"><h4>¿Cuál es la función principal del KDC dentro de Kerberos?</h4><ol type="A"><li data-feedback="El KDC no sustituye servicios; participa en la autenticación.">Sustituir todos los servicios de red de una organización.</li><li data-feedback="Kerberos evita enviar la contraseña a cada servidor.">Enviar la contraseña del usuario a cada servidor solicitado.</li><li data-feedback="El KDC no convierte aplicaciones en servicios públicos.">Convertir cualquier aplicación en un servicio público.</li><li data-correct="true">Emitir tickets que permiten demostrar la identidad del usuario.</li></ol><button class="return-button" onclick="resetQuestion('uso-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="uso-kerberos-medium"><h4>En una organización, un usuario inicia sesión y después accede a correo institucional, una carpeta compartida y una impresora de red sin escribir su contraseña otra vez. ¿Qué papel cumple Kerberos en ese escenario?</h4><ol type="A"><li data-feedback="Kerberos no envía la contraseña a cada servicio.">Permite que cada servicio reciba la contraseña del usuario solo una vez.</li><li data-correct="true">Autentica al usuario mediante tickets específicos para los servicios solicitados.</li><li data-feedback="Cada servicio puede requerir un ticket específico.">Hace que todos los servicios usen el mismo ticket sin distinguir permisos.</li><li data-feedback="El KDC participa para emitir tickets de servicio.">Evita que el KDC participe después del primer inicio de sesión.</li></ol><button class="return-button" onclick="resetQuestion('uso-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="uso-kerberos-hard"><h4>Un usuario inicia sesión, recibe un TGT y luego quiere abrir una carpeta compartida. ¿Qué interpretación describe mejor el flujo de autenticación?</h4><ol type="A"><li data-correct="true">El TGT permite pedir al KDC un ticket específico para acceder a la carpeta.</li><li data-feedback="El TGT no reemplaza al KDC; sirve para solicitar tickets.">El TGT reemplaza al KDC y autoriza directamente cualquier servicio.</li><li data-feedback="La contraseña no se envía directamente a la carpeta.">La carpeta compartida recibe la contraseña del usuario desde la computadora.</li><li data-feedback="El KDC participa antes del acceso, emitiendo el ticket correspondiente.">El KDC participa solo después de que la carpeta ya permitió el acceso.</li></ol><button class="return-button" onclick="resetQuestion('uso-kerberos')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="mexico" class="section">
+            <div class="section-head">
+                <div class="letter">8</div>
+                <div>
+                    <span>Uso en México</span>
+                    <h2>Ámbitos donde puede encontrarse</h2>
+                </div>
+            </div>
+
+            <div class="sector-grid">
+                <article class="sector"><div class="number">1</div><h3>Empresas</h3><p>Organizaciones que usan Active Directory emplean Kerberos como parte de su autenticación interna.</p></article>
+                <article class="sector"><div class="number">2</div><h3>Gobierno</h3><p>Dependencias con Active Directory o sistemas UNIX/Linux pueden usarlo para acceso a servicios internos.</p></article>
+                <article class="sector"><div class="number">3</div><h3>Educación</h3><p>Universidades lo pueden usar para SSO, correo, plataformas académicas, bibliotecas virtuales o Wi-Fi seguro.</p></article>
+                <article class="sector"><div class="number">4</div><h3>Banca</h3><p>Puede intervenir en cajeros, TPV, sucursales y acceso de empleados a plataformas internas.</p></article>
+            </div>
+
+            <article class="notice" style="margin-top: 24px;">
+                Forma simple de identificarlo: si una red interna depende de Microsoft Active Directory, Kerberos funciona por defecto como protocolo de autenticación. En gobierno, su uso no siempre está documentado públicamente por razones de seguridad operativa.
+            </article>
+        </section>
+
+        <section id="curiosos" class="section">
+            <div class="section-head">
+                <div class="letter">9</div>
+                <div>
+                    <span>Datos curiosos</span>
+                    <h2>Capa de aplicación y Kerberos</h2>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <article class="card accent-left">
+                    <h3>Capa de aplicación</h3>
+                    <div class="curious-grid">
+                        <div class="curious-card">
+                            <h3>No es la aplicación</h3>
+                            <p>La app es lo que usa el usuario; la capa de aplicación permite que esa app use servicios de red para comunicarse.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>Es una capa muy atacada</h3>
+                            <p>Muchos ataques aprovechan errores humanos o fallas en formularios, inicios de sesión, páginas web y APIs.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>APIs y servicios</h3>
+                            <p>Cuando una app consulta saldo, mensajes o clima, normalmente pide datos a un servidor mediante una API sobre HTTP/HTTPS.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>Aplicación vs. presentación</h3>
+                            <p>Aplicación define qué servicio se usa; presentación prepara cómo se representan, protegen o entienden los datos.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="card accent-left accent-purple">
+                    <h3>Kerberos</h3>
+                    <div class="curious-grid">
+                        <div class="curious-card">
+                            <h3>Pulsera de acceso</h3>
+                            <p>Primero te autenticas una vez y después usas tickets para demostrar que ya fuiste validado.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>La contraseña no viaja</h3>
+                            <p>La contraseña no se manda directamente por la red; se usan claves y tickets para comprobar la identidad.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>Tickets temporales</h3>
+                            <p>Los tickets tienen una validez limitada para evitar que alguien los use mucho tiempo después si logra robarlos.</p>
+                        </div>
+                        <div class="curious-card">
+                            <h3>Relojes sincronizados</h3>
+                            <p>Kerberos usa marcas de tiempo; si los relojes están muy desfasados, la autenticación puede fallar.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <article class="notice" style="margin-top: 24px;">
+                Un ataque de repetición ocurre cuando un atacante captura un mensaje válido y lo vuelve a enviar para intentar engañar al sistema.
+            </article>
+
+            <div class="question-panel" data-question-group="curiosos-aplicacion">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Datos curiosos de aplicación</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('curiosos-aplicacion', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('curiosos-aplicacion', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('curiosos-aplicacion', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="curiosos-aplicacion-easy"><h4>¿Cuál afirmación describe mejor la relación entre una app y la capa de aplicación?</h4><ol type="A"><li>Son exactamente lo mismo.</li><li>La capa solo protege la contraseña del usuario.</li><li data-correct="true">La app la usa el usuario; la capa permite usar servicios de red.</li><li>La app solo funciona si usa Kerberos.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-aplicacion')">Volver a elegir</button></div>
+                <div class="question-box" id="curiosos-aplicacion-medium"><h4>¿Por qué la capa de aplicación suele ser un punto atractivo para ataques?</h4><ol type="A"><li>Porque ahí se generan los tickets de acceso.</li><li>Porque ahí se sincronizan los relojes.</li><li>Porque ahí se validan los KDC.</li><li data-correct="true">Porque ahí interactúa el usuario.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-aplicacion')">Volver a elegir</button></div>
+                <div class="question-box" id="curiosos-aplicacion-hard"><h4>Si una aplicación móvil consulta datos mediante una API, ¿por qué eso se relaciona con la capa de aplicación?</h4><ol type="A"><li>Porque traduce los datos para que el sistema los cifre antes de enviarlos.</li><li>Porque administra los tickets que autorizan el acceso al servidor.</li><li>Porque establece el formato interno en que se representan los datos.</li><li data-correct="true">Porque define el servicio de comunicación usado por la app.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-aplicacion')">Volver a elegir</button></div>
+            </div>
+
+            <div class="question-panel" data-question-group="curiosos-kerberos">
+                <div class="question-top"><div><h3>Pregunta de refuerzo · Datos curiosos de Kerberos</h3><p>Selecciona el nivel de dificultad.</p></div></div>
+                <div class="difficulty-buttons">
+                    <button class="easy" onclick="showQuestion('curiosos-kerberos', 'easy')">Pregunta fácil</button>
+                    <button class="medium" onclick="showQuestion('curiosos-kerberos', 'medium')">Pregunta media</button>
+                    <button class="hard" onclick="showQuestion('curiosos-kerberos', 'hard')">Pregunta difícil</button>
+                </div>
+                <div class="question-box" id="curiosos-kerberos-easy"><h4>¿Por qué Kerberos puede compararse con una pulsera de acceso?</h4><ol type="A"><li data-correct="true">Porque validas una vez y luego muestras tickets.</li><li>Porque evita identificarse al inicio.</li><li>Porque cada servicio recibe tu contraseña.</li><li>Porque el usuario crea sus propios permisos.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="curiosos-kerberos-medium"><h4>Si un atacante roba un ticket válido, ¿qué característica de Kerberos reduce el daño?</h4><ol type="A"><li>Que el usuario cambia de aplicación.</li><li>Que HTTP cifra todos los tickets.</li><li>Que el KDC deja de emitir tickets.</li><li data-correct="true">Que los tickets tienen tiempo de vida.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-kerberos')">Volver a elegir</button></div>
+                <div class="question-box" id="curiosos-kerberos-hard"><h4>Si Kerberos evita enviar la contraseña por la red, ¿por qué aún necesita un servidor confiable como el KDC?</h4><ol type="A"><li>Porque el KDC reemplaza todos los servicios de la red.</li><li>Porque el KDC guarda los códigos de cada usuario.</li><li data-correct="true">Porque alguien debe emitir y validar tickets confiables.</li><li>Porque los tickets eliminan la autenticación mutua.</li></ol><button class="return-button" onclick="resetQuestion('curiosos-kerberos')">Volver a elegir</button></div>
+            </div>
+        </section>
+
+        <section id="referencias" class="section">
+            <div class="section-head">
+                <div class="letter">R</div>
+                <div>
+                    <span>Referencias bibliográficas</span>
+                    <h2>Fuentes</h2>
+                </div>
+            </div>
+
+            <article class="card references accent-left">
+                <ul>
+                    <li>China R., Goodwin M. (s.f.). <em>¿Qué es el modelo OSI?</em>. IBM. https://www.ibm.com/think/topics/osi-model</li>
+                    <li>Saltzer J. (2021). <em>On the Origin of Kerberos</em>. MIT. https://web.mit.edu/saltzer/www/publications/Kerberosorigin.pdf</li>
+                    <li>Lenovo. (s.f.). <em>¿Qué es Kerberos?</em>. https://www.lenovo.com/us/en/glossary/kerberos/</li>
+                    <li>IONOS. (2023). <em>Capa de aplicación: todo acerca de la séptima capa del modelo OSI</em>. https://www.ionos.mx/digitalguide/servidores/know-how/capa-de-aplicacion/</li>
+                    <li>China, C. R. y Goodwin, M. (s.f.). <em>¿Qué es el modelo OSI?</em>. IBM. https://www.ibm.com/think/topics/osi-model</li>
+                    <li>Cisco Networking Academy. (s.f.). <em>Introducción a redes</em>. Cisco. Recuperado el 17 de mayo de 2026, de https://www.netacad.com/</li>
+                    <li>IBM. (s.f.). <em>OSI model</em>. IBM Documentation. Recuperado el 17 de mayo de 2026, de https://www.ibm.com/docs/</li>
+                    <li>International Organization for Standardization. (s.f.). <em>Open Systems Interconnection (OSI)</em>. ISO. Recuperado el 17 de mayo de 2026, de https://www.iso.org/</li>
                 </ul>
+            </article>
+        </section>
+    </main>
 
-            </div>
-
+    <footer>
+        <div class="page-shell">
+            <p>Equipo 01 · Capa de aplicación y Kerberos · Redes de Datos Seguras</p>
         </div>
+    </footer>
 
-    </section>
+    <script>
+        function showQuestion(group, difficulty) {
+            const panel = document.querySelector(`[data-question-group="${group}"]`);
+            const buttons = panel.querySelector('.difficulty-buttons');
+            const boxes = panel.querySelectorAll('.question-box');
 
-    <br><br><br><br>
-    <!-------------------- Desarrollo -------------------->
-    <div class="container">
-        
-        <section id="proceso">
-            <h2 class="container_titulos">¿Cómo llegamos a esta idea?</h2>
-            <div class="proceso-imagenes">
-                <img src="/Img/Proceso_1.jpeg" alt="">
-                <img src="/Img/Proceso_2.jpeg" alt="">
-                <img src="/Img/Proceso_3.jpeg" alt="">
-            </div>
-            <div class="proceso-texto">
-                <p>Nuestras primeras ideas vienen desde entender como funcionaba en cuanto a espacialidad el parque primavera y entender como se podía replicar de alguna forma esta idea sin tener que replicarlo, pasando desde un acomodo que generaban una barrera, con patios que acompañaban a cada edificio hasta enterrar todo seis metros pero manteniendo la idea de conectar de alguna manera lo prehispanico a la actualidad con estos grandes juegosde pelota y calles hundidas las cuales vemos como una jerarquizacion y monumentalidad, con algunas ideas de ruinas de civilizaciones antiguas.</p>
-                <img src="/Img/Proceso_4.jpeg" alt="">
-            </div>
-            <div class="proceso-imagenes_2">
-                <img src="/Img/Proceso_5.jpg" alt="">
-                <img src="/Img/Proceso_6.jpg" alt="">
-            </div>
-        </section>
-    </div>
+            buttons.style.display = 'none';
+            boxes.forEach(box => {
+                box.classList.remove('active');
+                resetAnswerState(box);
+            });
 
-    <div class="container_2">
+            const selectedQuestion = document.getElementById(`${group}-${difficulty}`);
+            selectedQuestion.classList.add('active');
+        }
 
-        <section id="memoria">
-            <h2 class="container_titulos">Memoria</h2>
-            <p>Transitando por el camino principal, a nuestra izquierda podemos ver un edificio en forma de C con patios en los que personas de todas las edades se encuentran desempeñando actividades relacionadas a los talleres que ahí se imparten, posteriormente, nos encontramos una fosa que conecta, mediante cartelas con pendientes (simulando taludes), al edificio en forma de C antes mencionado con otro prisma que en su planta baja es galería, cafetería, administración y auditorio, este edificio tiene salida a la fosa y a otro conjunto de patios. Por lo tanto, a nuestro lado izquierdo lo conforman: edificio de talleres y aulas, edificio de galería y auditorio, ágora, administración y un estacionamiento con 10 cajones. Por otra parte, a nuestra derecha se encuentra el área deportiva, la componen una cancha de fútbol 7, otra de fútbol 5, tres canchas multiusos que se encuentran enterradas, otro estacionamiento con 10 cajones y un complejo que contiene gimnasio, baños con vestidores y duchas.</p>
-        </section>
+        function resetQuestion(group) {
+            const panel = document.querySelector(`[data-question-group="${group}"]`);
+            const buttons = panel.querySelector('.difficulty-buttons');
+            const boxes = panel.querySelectorAll('.question-box');
 
-    </div>
+            boxes.forEach(box => {
+                box.classList.remove('active');
+                resetAnswerState(box);
+            });
 
-    <div class="container">
+            buttons.style.display = 'grid';
+        }
 
-        <section id="croquis">
-            <h2 class="container_titulos">Croquis</h2>
+        function resetAnswerState(questionBox) {
+            questionBox.querySelectorAll('li').forEach(option => {
+                option.classList.remove('selected-correct', 'selected-incorrect', 'easy-correct', 'medium-correct', 'hard-correct');
+            });
 
-            <div class="croquis-images">
-                <img src="Img/Croquis_1.jpeg" alt="">
-                <img src="Img/Croquis_2.jpeg" alt="">
-            </div>
-    
-            <div class="last-image-container">
-                <img src="Img/Croquis_3.jpeg" alt="">
-            </div>
+            const feedback = questionBox.querySelector('.answer-feedback');
+            if (feedback) {
+                feedback.remove();
+            }
+        }
 
-        </section>
+        function getDifficulty(questionBox) {
+            if (questionBox.id.endsWith('-easy')) return 'easy';
+            if (questionBox.id.endsWith('-medium')) return 'medium';
+            if (questionBox.id.endsWith('-hard')) return 'hard';
+            return 'easy';
+        }
 
-    </div>
+        function getCorrectMessage(difficulty) {
+            if (difficulty === 'easy') return '+1 pto · Perfecto. Respuesta correcta.';
+            if (difficulty === 'medium') return '+2 ptos · Perfecto. Buen análisis.';
+            return '+3 ptos · Perfecto. Esa era la difícil.';
+        }
 
-    <div class="container_2">
+        document.addEventListener('click', event => {
+            const option = event.target.closest('.question-box li');
+            if (!option) return;
 
-        <section id="vistas">
-            <h2 class="container_titulos">Arquitectonico</h2>
+            const questionBox = option.closest('.question-box');
+            const options = questionBox.querySelectorAll('li');
+            const hasCorrectAnswer = questionBox.querySelector('li[data-correct="true"]');
+            const difficulty = getDifficulty(questionBox);
 
-            <div class="vistas_img">
-                <img src="Img/Arquitectonico.png" alt="">
-            </div>
+            options.forEach(item => {
+                item.classList.remove('selected-correct', 'selected-incorrect', 'easy-correct', 'medium-correct', 'hard-correct');
+            });
 
-            <div class="pdf-container">
-                <embed src="/pdf/CORTES CDC PAGINA.pdf" type="application/pdf" class="pdf-embed_1">
-                <img class="pdf-container-img" src="/Img/1_Arquitectonico.jpg" alt="">
-            </div>
-            
-            <div class="pdf-container">
-                <embed src="/pdf/CXF GYM.pdf" type="application/pdf" class="pdf-embed_2">
-                <img class="pdf-container-img" src="/Img/2_Arquitectonico.jpg" alt="">
-            </div>
+            const previousFeedback = questionBox.querySelector('.answer-feedback');
+            if (previousFeedback) {
+                previousFeedback.remove();
+            }
 
-            <!-- Tabla de áreas construidas -->
-        <div class="table-container">
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th>ESPACIO CONSTRUIDO</th>
-                        <th>AREA EN M2</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>CANCHA MULTIUSOS</td>
-                        <td>608 (CADA CANCHA)</td>
-                    </tr>
-                    <tr>
-                        <td>CANCHA FUTBOL 5</td>
-                        <td>600</td>
-                    </tr>
-                    <tr>
-                        <td>GYM Y BAÑOS</td>
-                        <td>1925</td>
-                    </tr>
-                    <tr>
-                        <td>ADMIN</td>
-                        <td>155.52</td>
-                    </tr>
-                    <tr>
-                        <td>GALERIA</td>
-                        <td>155.52</td>
-                    </tr>
-                    <tr>
-                        <td>CAFETERIA</td>
-                        <td>155.52</td>
-                    </tr>
-                    <tr>
-                        <td>AUDITORIO</td>
-                        <td>881.28</td>
-                    </tr>
-                    <tr>
-                        <td>EDIFICIO DE AULAS</td>
-                        <td>1,347.84</td>
-                    </tr>
-                    <tr>
-                        <td>CANCHA FUTBOL 7</td>
-                        <td>1,925</td>
-                    </tr>
-                    <tr>
-                        <td>CASETA</td>
-                        <td>25</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            const feedback = document.createElement('p');
+            feedback.classList.add('answer-feedback');
 
-        </section>
+            if (!hasCorrectAnswer) {
+                feedback.textContent = 'Respuesta pendiente de configurar.';
+                feedback.classList.add('pending');
+                questionBox.appendChild(feedback);
+                return;
+            }
 
-    </div>
+            if (option.dataset.correct === 'true') {
+                option.classList.add('selected-correct', `${difficulty}-correct`);
+                feedback.textContent = getCorrectMessage(difficulty);
+                feedback.classList.add('correct', `${difficulty}-feedback`);
+            } else {
+                option.classList.add('selected-incorrect');
+                feedback.textContent = option.dataset.feedback || 'Incorrecto. Revisa la idea central de la sección.';
+                feedback.classList.add('incorrect');
+            }
 
-    <script src="Scripts/script.js"></script>
-
+            questionBox.appendChild(feedback);
+        });
+    </script>
 </body>
-
 </html>
