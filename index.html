@@ -914,6 +914,51 @@
             margin-bottom: 12px;
         }
 
+
+
+        .farewell-section {
+            margin-top: 96px;
+            text-align: center;
+        }
+
+        .farewell-card {
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            border: 1px solid var(--line);
+            border-radius: 36px;
+            box-shadow: var(--shadow);
+            padding: clamp(22px, 4vw, 42px);
+            overflow: hidden;
+        }
+
+        .farewell-video {
+            width: 100%;
+            max-height: 68vh;
+            border-radius: 28px;
+            background: #020617;
+            box-shadow: 0 20px 55px rgba(15, 23, 42, 0.22);
+            display: block;
+        }
+
+        .farewell-title {
+            margin-top: 34px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(3.4rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--dark);
+        }
+
+        .farewell-title::after {
+            content: "";
+            display: block;
+            width: min(260px, 58vw);
+            height: 2px;
+            margin: 24px auto 0;
+            background: linear-gradient(90deg, transparent, var(--purple), var(--blue), transparent);
+            border-radius: 999px;
+        }
+
         footer {
             margin-top: 40px;
             background: var(--dark);
@@ -1097,27 +1142,9 @@
             border-radius: 50%;
             border: 12px solid white;
             box-shadow: 0 22px 55px rgba(15, 23, 42, 0.22);
-            background: conic-gradient(
-                #dbeafe 0deg 20deg,
-                #ede9fe 20deg 40deg,
-                #dcfce7 40deg 60deg,
-                #fef3c7 60deg 80deg,
-                #fee2e2 80deg 100deg,
-                #e0f2fe 100deg 120deg,
-                #fce7f3 120deg 140deg,
-                #ccfbf1 140deg 160deg,
-                #ffedd5 160deg 180deg,
-                #dbeafe 180deg 200deg,
-                #ede9fe 200deg 220deg,
-                #dcfce7 220deg 240deg,
-                #fef3c7 240deg 260deg,
-                #fee2e2 260deg 280deg,
-                #e0f2fe 280deg 300deg,
-                #fce7f3 300deg 320deg,
-                #ccfbf1 320deg 340deg,
-                #ffedd5 340deg 360deg
-            );
+            background: conic-gradient(#dbeafe 0deg 360deg);
             position: relative;
+            overflow: hidden;
             transition: transform 4s cubic-bezier(0.12, 0.72, 0.12, 1);
         }
 
@@ -1132,16 +1159,18 @@
 
         .wheel-label {
             position: absolute;
-            width: 76px;
+            width: 86px;
             left: 50%;
             top: 50%;
-            font-size: 0.55rem;
+            font-size: clamp(0.54rem, 1.2vw, 0.68rem);
             font-weight: 900;
-            color: #334155;
+            color: #1e293b;
             text-align: center;
             line-height: 1.05;
             z-index: 1;
             pointer-events: none;
+            transform-origin: center center;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
         }
 
         .roulette-result-card {
@@ -1788,6 +1817,16 @@
                 </ul>
             </article>
         </section>
+
+        <section id="despedida" class="section farewell-section">
+            <div class="farewell-card">
+                <video class="farewell-video" controls preload="metadata">
+                    <source src="video.mp4#t=40" type="video/mp4">
+                    Tu navegador no puede reproducir este video.
+                </video>
+                <div class="farewell-title">Fin</div>
+            </div>
+        </section>
     </main>
 
     <footer>
@@ -1939,6 +1978,20 @@
 
         let rouletteRotation = 0;
         let rouletteReady = false;
+        let rouletteSpinning = false;
+
+        const rouletteColors = [
+            '#dbeafe', '#ede9fe', '#dcfce7', '#fef3c7', '#fee2e2', '#e0f2fe',
+            '#fce7f3', '#ccfbf1', '#ffedd5', '#e2e8f0', '#cffafe', '#fae8ff'
+        ];
+
+        function normalizeDegrees(degrees) {
+            return ((degrees % 360) + 360) % 360;
+        }
+
+        function shortRouletteName(name) {
+            return name.split(' ').slice(0, 2).join(' ');
+        }
 
         function buildRouletteLabels() {
             const wheel = document.getElementById('rouletteWheel');
@@ -1946,13 +1999,22 @@
 
             const total = rouletteNames.length;
             const angleStep = 360 / total;
+            const gradientParts = rouletteNames.map((_, index) => {
+                const start = index * angleStep;
+                const end = (index + 1) * angleStep;
+                const color = rouletteColors[index % rouletteColors.length];
+                return `${color} ${start}deg ${end}deg`;
+            });
+
+            wheel.style.background = `conic-gradient(from 0deg, ${gradientParts.join(', ')})`;
 
             rouletteNames.forEach((name, index) => {
                 const label = document.createElement('div');
                 label.className = 'wheel-label';
-                label.textContent = name.split(' ').slice(0, 2).join(' ');
-                const angle = index * angleStep + angleStep / 2;
-                label.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-155px) rotate(-${angle}deg)`;
+                label.textContent = shortRouletteName(name);
+
+                const sectorCenter = index * angleStep + angleStep / 2;
+                label.style.transform = `translate(-50%, -50%) rotate(${sectorCenter}deg) translateY(-152px) rotate(90deg)`;
                 wheel.appendChild(label);
             });
 
@@ -1973,26 +2035,39 @@
         }
 
         function instantPick() {
+            if (rouletteSpinning) return;
             const index = randomRouletteIndex();
             document.getElementById('rouletteResult').textContent = rouletteNames[index];
         }
 
         function spinRoulette() {
+            if (rouletteSpinning) return;
+
             const wheel = document.getElementById('rouletteWheel');
             const result = document.getElementById('rouletteResult');
             const index = randomRouletteIndex();
             const total = rouletteNames.length;
             const angleStep = 360 / total;
-            const targetAngle = index * angleStep + angleStep / 2;
-            const extraTurns = 360 * 6;
-            const pointerAngle = 270;
+            const selectedSectorCenter = index * angleStep + angleStep / 2;
 
-            rouletteRotation += extraTurns + (pointerAngle - targetAngle);
-            wheel.style.transform = `rotate(${rouletteRotation}deg)`;
+            /*
+               La flecha está arriba, que en un conic-gradient equivale a 0 grados.
+               Para que el sector elegido termine debajo de la flecha:
+               centroDelSector + rotacionFinal = 0 (mod 360)
+            */
+            const targetRotation = normalizeDegrees(-selectedSectorCenter);
+            const currentRotation = normalizeDegrees(rouletteRotation);
+            const correction = normalizeDegrees(targetRotation - currentRotation);
+            const extraTurns = 360 * 6;
+
+            rouletteRotation += extraTurns + correction;
+            rouletteSpinning = true;
             result.textContent = 'Girando...';
+            wheel.style.transform = `rotate(${rouletteRotation}deg)`;
 
             setTimeout(() => {
                 result.textContent = rouletteNames[index];
+                rouletteSpinning = false;
             }, 4100);
         }
 
