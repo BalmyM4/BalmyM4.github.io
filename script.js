@@ -52,3 +52,31 @@ document.getElementById('timerReset').addEventListener('click', () => {
   remaining = 60;
   drawTimer();
 });
+
+const appTabs = document.querySelectorAll('.app-tab');
+const appViews = document.querySelectorAll('.app-view');
+appTabs.forEach(tab => tab.addEventListener('click', () => {
+  appTabs.forEach(t => t.classList.remove('active'));
+  appViews.forEach(v => v.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById(tab.dataset.view).classList.add('active');
+  localStorage.setItem('active24-main-view', tab.dataset.view);
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+const savedView = localStorage.getItem('active24-main-view');
+if(savedView){
+  const tab=document.querySelector(`.app-tab[data-view="${savedView}"]`);
+  const view=document.getElementById(savedView);
+  if(tab&&view){appTabs.forEach(t=>t.classList.remove('active'));appViews.forEach(v=>v.classList.remove('active'));tab.classList.add('active');view.classList.add('active');}
+}
+document.querySelectorAll('.meal-toggle').forEach(btn=>btn.addEventListener('click',()=>{
+  const content=btn.closest('.meal-card').querySelector('.meal-card__content');
+  const collapsed=content.classList.toggle('collapsed');
+  btn.textContent=collapsed?'+':'−';
+  btn.setAttribute('aria-expanded',String(!collapsed));
+}));
+[...document.querySelectorAll('.food-item input')].forEach((box,i)=>{
+  const key=`active24-food-${i}`;
+  box.checked=localStorage.getItem(key)==='true';
+  box.addEventListener('change',()=>localStorage.setItem(key,box.checked));
+});

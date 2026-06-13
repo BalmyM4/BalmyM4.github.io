@@ -12,3 +12,7 @@ Sitio web estático listo para publicar en GitHub Pages.
 6. Guarda los cambios.
 
 El sitio recuerda los ejercicios marcados usando `localStorage` del navegador.
+
+## Menú semanal
+
+La página incluye una pestaña separada con el menú del nutriólogo, horarios, cantidades, imágenes y casillas de seguimiento.

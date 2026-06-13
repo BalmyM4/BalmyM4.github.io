@@ -26,6 +26,11 @@
   </header>
 
   <main class="container">
+    <nav class="app-switcher" aria-label="Secciones principales">
+      <button class="app-tab active" data-view="rutinaView">🏋️ Rutina</button>
+      <button class="app-tab" data-view="menuView">🥗 Menú semanal</button>
+    </nav>
+    <div id="rutinaView" class="app-view active">
     <section class="notice">
       <div class="notice__icon">✓</div>
       <div>
@@ -270,6 +275,87 @@
         <button id="timerReset" class="secondary">Reiniciar</button>
       </div>
     </section>
+
+    </div>
+
+    <div id="menuView" class="app-view">
+      <section class="menu-hero-card">
+        <div>
+          <span class="eyebrow">Plan del nutriólogo</span>
+          <h2>Menú de la siguiente semana</h2>
+          <p>Cinco tiempos de comida con horarios, porciones e imágenes de referencia.</p>
+        </div>
+        <span class="menu-hero-badge">5 tiempos</span>
+      </section>
+
+      <section class="meal-grid">
+        <article class="meal-card">
+          <header class="meal-card__header">
+            <div><span>🌅</span><div><small>09:00 AM</small><h3>Desayuno</h3></div></div>
+            <button class="meal-toggle" aria-expanded="true">−</button>
+          </header>
+          <div class="meal-card__content">
+            <img src="assets/desayuno.png" alt="Menú visual del desayuno">
+            <label class="food-item"><input type="checkbox"><div><strong>Licuado de fresa y avena</strong><p>Leche descremada 240 ml · Fresas 72 g (6 piezas) · Avena cruda en hojuelas 10 g (¼ taza)</p></div></label>
+            <label class="food-item"><input type="checkbox"><div><strong>Sándwich de pechuga de pavo</strong><p>Pan integral 60 g (2 piezas) · Jamón de pavo 42 g (2 rebanadas) · Aguacate 23.25 g (¼ pieza) · Queso fresco 15 g (½ rebanada)</p></div></label>
+          </div>
+        </article>
+
+        <article class="meal-card">
+          <header class="meal-card__header">
+            <div><span>☀️</span><div><small>11:30 AM</small><h3>Media mañana</h3></div></div>
+            <button class="meal-toggle" aria-expanded="true">−</button>
+          </header>
+          <div class="meal-card__content">
+            <img src="assets/media_manana.png" alt="Menú visual de media mañana">
+            <label class="food-item"><input type="checkbox"><div><strong>Almendras</strong><p>10 g · 10 piezas</p></div></label>
+            <label class="food-item"><input type="checkbox"><div><strong>Sandía</strong><p>180 g · 1 taza</p></div></label>
+            <label class="food-item"><input type="checkbox"><div><strong>Yogurt griego</strong><p>Chobani natural sin grasa 215 ml · 1½ piezas</p></div></label>
+          </div>
+        </article>
+
+        <article class="meal-card">
+          <header class="meal-card__header">
+            <div><span>🍽️</span><div><small>02:30 PM</small><h3>Comida</h3></div></div>
+            <button class="meal-toggle" aria-expanded="true">−</button>
+          </header>
+          <div class="meal-card__content">
+            <img src="assets/comida.png" alt="Menú visual de la comida">
+            <label class="food-item"><input type="checkbox"><div><strong>Carne en salsa verde con frijoles</strong><p>Filete de carne de res 110 g · Frijoles cocidos sin grasa 45 g (⅓ taza) · Salsa verde casera 30 g (2 cucharadas) · Cebolla blanca 5 g · Aceite en aerosol 5 ml</p></div></label>
+            <label class="food-item"><input type="checkbox"><div><strong>Arroz blanco cocido</strong><p>100 g · ½ taza</p></div></label>
+          </div>
+        </article>
+
+        <article class="meal-card">
+          <header class="meal-card__header">
+            <div><span>🌤️</span><div><small>05:00 PM</small><h3>Media tarde</h3></div></div>
+            <button class="meal-toggle" aria-expanded="true">−</button>
+          </header>
+          <div class="meal-card__content">
+            <img src="assets/media_tarde.png" alt="Menú visual de media tarde">
+            <label class="food-item"><input type="checkbox"><div><strong>Yogurt con fruta</strong><p>Yogurt natural 100 ml · Plátano 65 g (1 unidad) · Avena 20 g (½ taza)</p></div></label>
+          </div>
+        </article>
+
+        <article class="meal-card">
+          <header class="meal-card__header">
+            <div><span>🌙</span><div><small>08:30 PM</small><h3>Cena</h3></div></div>
+            <button class="meal-toggle" aria-expanded="true">−</button>
+          </header>
+          <div class="meal-card__content">
+            <img src="assets/cena.png" alt="Menú visual de la cena">
+            <label class="food-item"><input type="checkbox"><div><strong>Galleta salada</strong><p>Galletas saladas 16 g · 4 piezas</p></div></label>
+            <label class="food-item"><input type="checkbox"><div><strong>Ensalada de pollo fría</strong><p>Pechuga de pollo asada 90 g · Elote 42 g (⅓ taza) · Lechuga 41 g (1 taza) · Chícharos 40 g (¼ taza) · Papa 30 g · Zanahoria 20 g (¼ taza) · Mayonesa 6 g (1 cucharadita) · Mostaza 3 g</p></div></label>
+          </div>
+        </article>
+      </section>
+
+      <aside class="menu-note">
+        <strong>Menú semanal</strong>
+        <p>Esta pestaña está preparada para que después podamos añadir más semanas sin reemplazar la rutina.</p>
+      </aside>
+    </div>
+
   </main>
 
   <footer>
