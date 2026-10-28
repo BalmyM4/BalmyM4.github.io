@@ -1,367 +1,360 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0f172a" />
-  <title>Mi rutina Active24</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#122338">
+  <meta name="description" content="Planeación del proyecto de inventario visual para Fundamentos de Sistemas Embebidos, FI UNAM.">
+  <title>Sistema de inventario mediante reconocimiento visual | Proyecto final</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <div class="hero__content">
-      <span class="eyebrow">Rutina semanal • Principiante</span>
-      <h1>Mi rutina Active24</h1>
-      <p>Plan pensado para bajar de peso, usar principalmente máquinas y avanzar sin sobresaturarme.</p>
-
-      <div class="hero__stats">
-        <div><strong>5</strong><span>días activos</span></div>
-        <div><strong>2</strong><span>días de descanso</span></div>
-        <div><strong>2–3</strong><span>series por bloque</span></div>
+<!-- Iconos vectoriales internos; la portada utiliza img/hero.png. -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7.6 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.6L14.5 4Z"/><circle cx="12" cy="13" r="3.6"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5 9-5Zm-9 5v10l9 5 9-5V7M12 12v10"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2"/><path d="M8 22h8M12 18v4"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v7c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12v7c0 1.7 4 3 9 3s9-1.3 9-3v-7"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-5 4 3 5-7"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M21 12H3m7-7-7 7 7 7"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0M12 19h.01"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 5-6 7 6 7m8-14 6 7-6 7m-3-16-2 18"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M1 21v-2a7 7 0 0 1 14 0v2ZM16 4a4 4 0 0 1 0 8m2 4a5 5 0 0 1 5 5"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="18" rx="2"/><path d="M7 2v4M17 2v4M2 10h20"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="8" rx="2"/><rect x="3" y="13" width="18" height="8" rx="2"/><path d="M7 7h.01M7 17h.01M12 7h6M12 17h6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 6-10 6L2 8l10-6Zm-10 11 10 6 10-6M2 18l10 6 10-6"/></symbol>
+</svg>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<header class="topline">
+  <a class="brand" href="#inicio" aria-label="Ir a la portada"><span class="brand-mark"><svg class="icon"><use href="#i-camera"/></svg></span><span>FI · UNAM / Embebidos</span></a>
+  <div class="top-right">Proyecto final · 2027-1</div>
+</header>
+<main>
+  <!-- 01 -->
+  <section class="slide cover" id="inicio" aria-label="Portada">
+    <div class="slide-inner">
+      <div class="cover-content">
+        <p class="outline-label">Fundamentos de Sistemas Embebidos</p>
+        <h1>Sistema de<br>inventario mediante<br>reconocimiento visual</h1>
+        <p class="eyebrow">Planeación del proyecto · 28 de octubre de 2026</p>
+        <div class="course-info">
+          <div><strong>Profesor:</strong> Eduardo Fragoso Navarro</div>
+          <div class="names">
+            <span>Balam Flores Gabriel Patricio</span>
+            <span>Hernández Domínguez Luis Carlos</span>
+            <span>Medina Villa Samuel</span>
+          </div>
+        </div>
       </div>
     </div>
-  </header>
+    <div class="page-number">01 / 08</div>
+  </section>
 
-  <main class="container">
-    <nav class="app-switcher" aria-label="Secciones principales">
-      <button class="app-tab active" data-view="rutinaView">🏋️ Rutina</button>
-      <button class="app-tab" data-view="menuView">🥗 Menú semanal</button>
-    </nav>
-    <div id="rutinaView" class="app-view active">
-    <section class="notice">
-      <div class="notice__icon">✓</div>
+  <!-- 02 -->
+  <section class="slide" id="objetivo" aria-label="Objetivo del proyecto">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner">
+      <div class="section-heading">
+        <p class="eyebrow">01 · Idea del proyecto</p>
+        <h2>¿Qué queremos hacer?</h2>
+        <p class="lead">Administrar el registro de entrada y salida de productos en un inventario con imágenes de los productos.</p>
+      </div>
+      <div class="three-up">
+        <article class="panel step-card">
+          <div class="card-icon"><svg class="icon"><use href="#i-camera"/></svg></div>
+          <h3>1. Tomar una foto</h3>
+          <p>Colocamos un producto frente a la cámara.</p>
+          <div class="index">CAPTURA</div>
+        </article>
+        <article class="panel step-card">
+          <div class="card-icon teal"><svg class="icon"><use href="#i-cpu"/></svg></div>
+          <h3>2. Identificarlo</h3>
+          <p>La Orange Pi intenta reconocer qué producto es.</p>
+          <div class="index">RECONOCIMIENTO</div>
+        </article>
+        <article class="panel step-card">
+          <div class="card-icon amber"><svg class="icon"><use href="#i-check"/></svg></div>
+          <h3>3. Registrar</h3>
+          <p>Confirmamos una entrada o salida para actualizar el inventario.</p>
+          <div class="index">CONTROL</div>
+        </article>
+      </div>
+    </div>
+    <div class="page-number">02 / 08</div>
+  </section>
+
+  <!-- 03 -->
+  <section class="slide" id="esquema" aria-label="Esquema general del sistema">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner">
+      <div class="section-heading">
+        <p class="eyebrow">02 · Organización del sistema</p>
+        <h2>Esquema general</h2>
+        <p class="lead">Los dispositivos se dividen en tres partes, como se pide en el proyecto.</p>
+      </div>
+      <div class="arch-wrap">
+        <div class="arch-flow">
+          <div class="arch-node">
+            <div class="arch-index">CAPA DE CAMPO</div>
+            <div class="arch-heading"><svg class="icon"><use href="#i-camera"/></svg><h3>ESP32-S3</h3></div>
+            <p>Toma la foto con su cámara y la envía por Wi-Fi.</p>
+            <div class="chips"><span class="chip">Cámara OV3660</span><span class="chip">HTTP</span></div>
+          </div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg><span>FOTO</span></div>
+          <div class="arch-node">
+            <div class="arch-index">CAPA DE BORDE</div>
+            <div class="arch-heading"><svg class="icon"><use href="#i-cpu"/></svg><h3>Orange Pi</h3></div>
+            <p>Analiza la imagen y coordina los datos con Node-RED.</p>
+            <div class="chips"><span class="chip">Python + IA</span><span class="chip">Docker</span><span class="chip">MQTT</span></div>
+          </div>
+          <div class="flow-arrow"><svg class="icon"><use href="#i-arrow"/></svg><span>DATOS</span></div>
+          <div class="arch-node">
+            <div class="arch-index">INTERFAZ Y REGISTRO</div>
+            <div class="arch-heading"><svg class="icon"><use href="#i-monitor"/></svg><h3>Pantalla + PC</h3></div>
+            <p>Muestra el resultado, permite confirmar y guarda los movimientos.</p>
+            <div class="chips"><span class="chip">ILI9341</span><span class="chip">MariaDB</span><span class="chip">Grafana</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-number">03 / 08</div>
+  </section>
+
+  <!-- 04 -->
+  <section class="slide" id="campo" aria-label="Capa de campo">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner split">
       <div>
-        <strong>Cómo usar esta rutina</strong>
-        <p>Empieza con 2 series durante las primeras 2 semanas. Sube a 3 series solo si terminas con buena técnica y sin quedar agotado.</p>
+        <p class="eyebrow">03 · Capa de campo</p>
+        <h2>Captura de imágenes</h2>
+        <p class="lead">Usaremos la cámara de la ESP32-S3 como sensor para obtener una foto de cada producto.</p>
+        <div class="simple-items">
+          <div class="simple-item"><span class="number">1</span><div><h3>Seleccionar el producto</h3></div></div>
+          <div class="simple-item"><span class="number">2</span><div><h3>Tomar la foto</h3><p>Una imagen cuando se solicite, no video continuo.</p></div></div>
+          <div class="simple-item"><span class="number">3</span><div><h3>Enviar por Wi-Fi</h3><p>La imagen viaja a la Orange Pi para analizarse.</p></div></div>
+        </div>
+        <div class="info-line"><svg class="icon"><use href="#i-wifi"/></svg> Imagen por HTTP · órdenes y estado por MQTT</div>
       </div>
-    </section>
-
-    <nav class="day-tabs" aria-label="Días de entrenamiento">
-      <button class="day-tab active" data-day="lunes">Lun</button>
-      <button class="day-tab" data-day="martes">Mar</button>
-      <button class="day-tab" data-day="miercoles">Mié</button>
-      <button class="day-tab" data-day="jueves">Jue</button>
-      <button class="day-tab" data-day="viernes">Vie</button>
-      <button class="day-tab rest-tab" data-day="descanso">Fin</button>
-    </nav>
-
-    <section id="lunes" class="day-panel active">
-      <div class="day-heading">
-        <div>
-          <span class="day-number">Día 1</span>
-          <h2>Lunes · Cardio y abdomen</h2>
-        </div>
-        <span class="tag cardio">Cardio</span>
+      <div class="visual-frame">
+        <svg viewBox="0 0 520 370" role="img" aria-label="Montaje propuesto con cámara ESP32-S3 frente a tres productos de prueba">
+          <rect x="15" y="25" width="490" height="320" rx="19" fill="#f9fcfe"/>
+          <ellipse cx="280" cy="292" rx="170" ry="22" fill="#d3e3ed"/>
+          <path d="M63 287h400" stroke="#6d93ad" stroke-width="5" stroke-linecap="round"/>
+          <rect x="252" y="67" width="130" height="116" rx="15" fill="#d2edf4" stroke="#528aaa" stroke-width="3"/>
+          <rect x="269" y="85" width="95" height="79" rx="12" fill="#1e425c"/>
+          <circle cx="316" cy="124" r="32" fill="#0d253b" stroke="#7ab9cc" stroke-width="7"/>
+          <circle cx="316" cy="124" r="15" fill="#386e91" stroke="#b3dce4" stroke-width="3"/>
+          <circle cx="309" cy="116" r="5" fill="#d5f5f7" opacity=".7"/>
+          <path d="M280 183v46m72-46v46" stroke="#528aaa" stroke-width="5"/>
+          <rect x="252" y="229" width="130" height="19" rx="8" fill="#6a9ab7"/>
+          <path d="M269 248h99" stroke="#325e7b" stroke-width="8" stroke-linecap="round"/>
+          <path d="m264 186-65 69m168-69 53 69" stroke="#4bbcaf" stroke-width="2" stroke-dasharray="7 7"/>
+          <rect x="109" y="244" width="63" height="44" rx="7" fill="#dea67b"/>
+          <rect x="120" y="232" width="42" height="15" rx="4" fill="#efd4ab"/>
+          <rect x="186" y="241" width="52" height="47" rx="6" fill="#86b7a0"/>
+          <rect x="196" y="249" width="32" height="11" rx="4" fill="#def2d8"/>
+          <rect x="403" y="247" width="43" height="41" rx="6" fill="#e9c780"/>
+          <rect x="413" y="240" width="23" height="10" rx="4" fill="#ffe4a5"/>
+          <text x="34" y="56" font-size="15" fill="#486982" font-family="Arial" font-weight="bold">Cámara OV3660</text>
+          <path d="M159 61h75l38 30" fill="none" stroke="#709bb1" stroke-width="2"/>
+        </svg>
+        <div class="visual-caption"><span>ESP32-S3 + cámara</span></div>
       </div>
-
-      <article class="phase-card warmup">
-        <div class="phase-card__title">
-          <span class="phase-icon">🔥</span>
-          <div><h3>Calentamiento</h3><p>Preparar articulaciones y elevar poco a poco el ritmo.</p></div>
-        </div>
-        <div class="simple-item">
-          <div><strong>Caminadora o elíptica</strong><span>Ritmo cómodo, sin correr.</span></div>
-          <b>10 min</b>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title">
-          <span class="phase-icon">❤️</span>
-          <div><h3>Cardio principal</h3><p>Ritmo moderado: puedes hablar, pero notas el esfuerzo.</p></div>
-        </div>
-        <div class="simple-item">
-          <div><strong>Elíptica o caminadora</strong><span>Elige la opción más cómoda para rodillas y espalda.</span></div>
-          <b>35 min</b>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title">
-          <span class="phase-icon">🔁</span>
-          <div><h3>Bloque de abdomen</h3><p>2 series al inicio · descanso entre series: 90 seg</p></div>
-        </div>
-
-        <div class="exercise-list">
-          <label class="exercise">
-            <input type="checkbox" />
-            <div class="exercise__body">
-              <div class="exercise__top"><strong>Crunch en máquina</strong><span>12 reps</span></div>
-              <p>Máquina donde flexionas el torso hacia delante. Piensa en acercar costillas a pelvis.</p>
-              <small>Descanso: 45 seg</small>
-            </div>
-          </label>
-
-          <label class="exercise">
-            <input type="checkbox" />
-            <div class="exercise__body">
-              <div class="exercise__top"><strong>Oblicuos en máquina</strong><span>12 por lado</span></div>
-              <p>Gira el torso de forma controlada, manteniendo la cadera estable.</p>
-              <small>Descanso: 45 seg</small>
-            </div>
-          </label>
-
-          <label class="exercise">
-            <input type="checkbox" />
-            <div class="exercise__body">
-              <div class="exercise__top"><strong>Hiperextensión en máquina</strong><span>12 reps</span></div>
-              <p>Empuja el respaldo hacia atrás con un movimiento corto y controlado. No arquees de más.</p>
-              <small>Descanso: 90 seg antes de repetir</small>
-            </div>
-          </label>
-        </div>
-      </article>
-    </section>
-
-    <section id="martes" class="day-panel">
-      <div class="day-heading">
-        <div><span class="day-number">Día 2</span><h2>Martes · Pecho, espalda y abdomen</h2></div>
-        <span class="tag fuerza">Fuerza</span>
-      </div>
-
-      <article class="phase-card warmup">
-        <div class="phase-card__title"><span class="phase-icon">🔥</span><div><h3>Calentamiento</h3><p>Ritmo suave y constante.</p></div></div>
-        <div class="simple-item"><div><strong>Caminadora, bicicleta o elíptica</strong><span>Sin cansarte demasiado.</span></div><b>10 min</b></div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">🔁</span><div><h3>Bloque principal</h3><p>2 series al inicio · descanso entre series: 2 min</p></div></div>
-        <div class="exercise-list">
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Press de pecho en máquina</strong><span>12 reps</span></div><p>Sentado con respaldo, empuja las manijas hacia delante.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Jalón dorsal en máquina</strong><span>12 reps</span></div><p>Jala desde arriba hacia la parte alta del pecho, nunca detrás de la nuca.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Cristos en máquina</strong><span>12 reps</span></div><p>Junta los brazos al frente como si abrazaras un árbol.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Remo en máquina</strong><span>12 reps</span></div><p>Jala las manijas hacia el abdomen sin encorvarte.</p><small>Descanso: 2 min antes de repetir</small></div></label>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">➕</span><div><h3>Abdomen</h3><p>2 series · descanso entre series: 60 seg</p></div></div>
-        <div class="exercise-list">
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Crunch en máquina</strong><span>12 reps</span></div><p>Flexiona el torso hacia delante usando el abdomen, no las piernas.</p><small>Descanso: 60 seg</small></div></label>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">❤️</span><div><h3>Cardio final</h3><p>Ritmo suave a moderado.</p></div></div>
-        <div class="simple-item"><div><strong>Bicicleta o elíptica</strong><span>La opción que se sienta más cómoda.</span></div><b>20 min</b></div>
-      </article>
-    </section>
-
-    <section id="miercoles" class="day-panel">
-      <div class="day-heading">
-        <div><span class="day-number">Día 3</span><h2>Miércoles · Cardio y pierna</h2></div>
-        <span class="tag mixto">Mixto</span>
-      </div>
-
-      <article class="phase-card warmup">
-        <div class="phase-card__title"><span class="phase-icon">🔥</span><div><h3>Calentamiento</h3><p>Activa piernas sin fatigarlas.</p></div></div>
-        <div class="simple-item"><div><strong>Bicicleta o caminadora</strong><span>Ritmo cómodo.</span></div><b>10 min</b></div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">🔁</span><div><h3>Bloque de pierna</h3><p>2 series al inicio · descanso entre series: 2 min</p></div></div>
-        <div class="exercise-list">
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Prensa</strong><span>12 reps</span></div><p>Empuja la plataforma con ambos pies sin despegar la espalda del respaldo.</p><small>Descanso: 75 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Extensión en máquina</strong><span>12 reps</span></div><p>Extiende las rodillas levantando el rodillo con las espinillas.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Curl femoral sentado</strong><span>12 reps</span></div><p>Flexiona las rodillas llevando los talones hacia atrás o debajo del asiento.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Abductor en máquina</strong><span>15 reps</span></div><p>Abre las piernas contra las almohadillas, sin hacerlo de golpe.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Patada de glúteo en máquina</strong><span>12 por pierna</span></div><p>Empuja la plataforma o almohadilla hacia atrás con una pierna.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Pantorrilla en prensa</strong><span>18 reps</span></div><p>Usa la prensa; apoya la parte delantera de los pies y mueve solo los tobillos.</p><small>Descanso: 2 min antes de repetir</small></div></label>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">❤️</span><div><h3>Cardio final</h3><p>Moderado y sin correr.</p></div></div>
-        <div class="simple-item"><div><strong>Elíptica, bicicleta reclinada o caminadora</strong><span>Elige la más amable con tus articulaciones.</span></div><b>30 min</b></div>
-      </article>
-    </section>
-
-    <section id="jueves" class="day-panel">
-      <div class="day-heading">
-        <div><span class="day-number">Día 4</span><h2>Jueves · Bíceps y tríceps</h2></div>
-        <span class="tag fuerza">Fuerza</span>
-      </div>
-
-      <article class="phase-card warmup">
-        <div class="phase-card__title"><span class="phase-icon">🔥</span><div><h3>Calentamiento</h3><p>Cardio suave y movilidad de hombros.</p></div></div>
-        <div class="simple-item"><div><strong>Bicicleta o caminadora</strong><span>Después, 2 min de movilidad suave.</span></div><b>8 min</b></div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">💪</span><div><h3>Bloque de brazos</h3><p>2 series al inicio · descanso entre series: 2 min</p></div></div>
-        <div class="exercise-list">
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Curl en máquina</strong><span>12 reps</span></div><p>Flexiona los codos contra la resistencia manteniendo los brazos estables.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Curl predicador en máquina</strong><span>12 reps</span></div><p>Apoya los brazos en el cojín inclinado y evita levantar los hombros.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Extensión de tríceps con barra</strong><span>12 reps</span></div><p>En polea alta, empuja la barra hacia abajo con los codos pegados al cuerpo.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Fondos en máquina</strong><span>10 reps</span></div><p>Empuja las palancas hacia abajo manteniendo espalda y hombros estables.</p><small>Descanso: 2 min antes de repetir</small></div></label>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">❤️</span><div><h3>Cardio final</h3><p>Ritmo moderado.</p></div></div>
-        <div class="simple-item"><div><strong>Bicicleta o caminadora</strong><span>No es necesario correr.</span></div><b>25 min</b></div>
-      </article>
-    </section>
-
-    <section id="viernes" class="day-panel">
-      <div class="day-heading">
-        <div><span class="day-number">Día 5</span><h2>Viernes · Cuerpo completo</h2></div>
-        <span class="tag mixto">Full body</span>
-      </div>
-
-      <article class="phase-card warmup">
-        <div class="phase-card__title"><span class="phase-icon">🔥</span><div><h3>Calentamiento</h3><p>Ritmo cómodo.</p></div></div>
-        <div class="simple-item"><div><strong>Caminadora o bicicleta</strong><span>Sin agotarte.</span></div><b>10 min</b></div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">🔁</span><div><h3>Circuito completo</h3><p>2 series · descanso entre series: 3 min</p></div></div>
-        <div class="exercise-list">
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Press de pecho en máquina</strong><span>12 reps</span></div><p>Empuja las manijas al frente con espalda apoyada.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Jalón dorsal en máquina</strong><span>12 reps</span></div><p>Jala hacia la parte alta del pecho.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Prensa</strong><span>12 reps</span></div><p>Empuja la plataforma sin bloquear las rodillas.</p><small>Descanso: 75 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Remo en máquina</strong><span>12 reps</span></div><p>Jala hacia el abdomen sin encorvarte.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Curl femoral sentado</strong><span>12 reps</span></div><p>Flexiona las rodillas de forma controlada.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Extensión en máquina</strong><span>12 reps</span></div><p>Extiende las rodillas sin aventar el peso.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Patada de glúteo en máquina</strong><span>12 por pierna</span></div><p>Empuja hacia atrás con una pierna.</p><small>Descanso: 60 seg</small></div></label>
-          <label class="exercise"><input type="checkbox"><div class="exercise__body"><div class="exercise__top"><strong>Crunch en máquina</strong><span>12 reps</span></div><p>Flexiona el torso con el abdomen.</p><small>Descanso: 3 min antes de repetir</small></div></label>
-        </div>
-      </article>
-
-      <article class="phase-card">
-        <div class="phase-card__title"><span class="phase-icon">❤️</span><div><h3>Cardio opcional</h3><p>Solo si todavía te sientes bien.</p></div></div>
-        <div class="simple-item"><div><strong>Bicicleta o caminadora</strong><span>Ritmo suave para cerrar la semana.</span></div><b>15 min</b></div>
-      </article>
-    </section>
-
-    <section id="descanso" class="day-panel">
-      <div class="day-heading">
-        <div><span class="day-number">Recuperación</span><h2>Sábado y domingo · Descanso</h2></div>
-        <span class="tag descanso">Descanso</span>
-      </div>
-
-      <article class="rest-card">
-        <div class="rest-card__emoji">😌</div>
-        <h3>Descanso completo, sin culpa</h3>
-        <p>Puedes caminar por tus actividades normales, pero no necesitas cumplir ninguna sesión. La meta es recuperarte y comenzar la siguiente semana con energía.</p>
-      </article>
-    </section>
-
-    <section class="guide">
-      <h2>Reglas rápidas</h2>
-      <div class="guide-grid">
-        <article><span>1</span><h3>Peso correcto</h3><p>Termina la serie sintiendo que todavía podrías hacer 2 o 3 repeticiones más.</p></article>
-        <article><span>2</span><h3>No llegar al fallo</h3><p>La técnica y la constancia importan más que usar mucho peso.</p></article>
-        <article><span>3</span><h3>Dolor no es progreso</h3><p>Detente ante dolor fuerte, mareo, dolor de pecho o falta de aire fuera de lo habitual.</p></article>
-        <article><span>4</span><h3>Avance gradual</h3><p>Primero aumenta a 3 series; después, cuando sea fácil, sube un poco el peso.</p></article>
-      </div>
-    </section>
-
-    <section class="timer-card">
-      <div>
-        <span class="eyebrow">Temporizador rápido</span>
-        <h2 id="timerDisplay">01:00</h2>
-        <p>Úsalo para controlar tus descansos.</p>
-      </div>
-      <div class="timer-actions">
-        <button data-seconds="45">45 seg</button>
-        <button data-seconds="60">60 seg</button>
-        <button data-seconds="75">75 seg</button>
-        <button data-seconds="90">90 seg</button>
-        <button data-seconds="120">2 min</button>
-        <button id="timerReset" class="secondary">Reiniciar</button>
-      </div>
-    </section>
-
     </div>
+    <div class="page-number">04 / 08</div>
+  </section>
 
-    <div id="menuView" class="app-view">
-      <section class="menu-hero-card">
-        <div>
-          <span class="eyebrow">Plan del nutriólogo</span>
-          <h2>Menú de la siguiente semana</h2>
-          <p>Cinco tiempos de comida con horarios, porciones e imágenes de referencia.</p>
-        </div>
-        <span class="menu-hero-badge">5 tiempos</span>
-      </section>
-
-      <section class="meal-grid">
-        <article class="meal-card">
-          <header class="meal-card__header">
-            <div><span>🌅</span><div><small>09:00 AM</small><h3>Desayuno</h3></div></div>
-            <button class="meal-toggle" aria-expanded="true">−</button>
-          </header>
-          <div class="meal-card__content">
-            <img src="assets/desayuno.png" alt="Menú visual del desayuno">
-            <label class="food-item"><input type="checkbox"><div><strong>Licuado de fresa y avena</strong><p>Leche descremada 240 ml · Fresas 72 g (6 piezas) · Avena cruda en hojuelas 10 g (¼ taza)</p></div></label>
-            <label class="food-item"><input type="checkbox"><div><strong>Sándwich de pechuga de pavo</strong><p>Pan integral 60 g (2 piezas) · Jamón de pavo 42 g (2 rebanadas) · Aguacate 23.25 g (¼ pieza) · Queso fresco 15 g (½ rebanada)</p></div></label>
-          </div>
-        </article>
-
-        <article class="meal-card">
-          <header class="meal-card__header">
-            <div><span>☀️</span><div><small>11:30 AM</small><h3>Media mañana</h3></div></div>
-            <button class="meal-toggle" aria-expanded="true">−</button>
-          </header>
-          <div class="meal-card__content">
-            <img src="assets/media_manana.png" alt="Menú visual de media mañana">
-            <label class="food-item"><input type="checkbox"><div><strong>Almendras</strong><p>10 g · 10 piezas</p></div></label>
-            <label class="food-item"><input type="checkbox"><div><strong>Sandía</strong><p>180 g · 1 taza</p></div></label>
-            <label class="food-item"><input type="checkbox"><div><strong>Yogurt griego</strong><p>Chobani natural sin grasa 215 ml · 1½ piezas</p></div></label>
-          </div>
-        </article>
-
-        <article class="meal-card">
-          <header class="meal-card__header">
-            <div><span>🍽️</span><div><small>02:30 PM</small><h3>Comida</h3></div></div>
-            <button class="meal-toggle" aria-expanded="true">−</button>
-          </header>
-          <div class="meal-card__content">
-            <img src="assets/comida.png" alt="Menú visual de la comida">
-            <label class="food-item"><input type="checkbox"><div><strong>Carne en salsa verde con frijoles</strong><p>Filete de carne de res 110 g · Frijoles cocidos sin grasa 45 g (⅓ taza) · Salsa verde casera 30 g (2 cucharadas) · Cebolla blanca 5 g · Aceite en aerosol 5 ml</p></div></label>
-            <label class="food-item"><input type="checkbox"><div><strong>Arroz blanco cocido</strong><p>100 g · ½ taza</p></div></label>
-          </div>
-        </article>
-
-        <article class="meal-card">
-          <header class="meal-card__header">
-            <div><span>🌤️</span><div><small>05:00 PM</small><h3>Media tarde</h3></div></div>
-            <button class="meal-toggle" aria-expanded="true">−</button>
-          </header>
-          <div class="meal-card__content">
-            <img src="assets/media_tarde.png" alt="Menú visual de media tarde">
-            <label class="food-item"><input type="checkbox"><div><strong>Yogurt con fruta</strong><p>Yogurt natural 100 ml · Plátano 65 g (1 unidad) · Avena 20 g (½ taza)</p></div></label>
-          </div>
-        </article>
-
-        <article class="meal-card">
-          <header class="meal-card__header">
-            <div><span>🌙</span><div><small>08:30 PM</small><h3>Cena</h3></div></div>
-            <button class="meal-toggle" aria-expanded="true">−</button>
-          </header>
-          <div class="meal-card__content">
-            <img src="assets/cena.png" alt="Menú visual de la cena">
-            <label class="food-item"><input type="checkbox"><div><strong>Galleta salada</strong><p>Galletas saladas 16 g · 4 piezas</p></div></label>
-            <label class="food-item"><input type="checkbox"><div><strong>Ensalada de pollo fría</strong><p>Pechuga de pollo asada 90 g · Elote 42 g (⅓ taza) · Lechuga 41 g (1 taza) · Chícharos 40 g (¼ taza) · Papa 30 g · Zanahoria 20 g (¼ taza) · Mayonesa 6 g (1 cucharadita) · Mostaza 3 g</p></div></label>
-          </div>
-        </article>
-      </section>
-
-      <aside class="menu-note">
-        <strong>Menú semanal</strong>
-        <p>Esta pestaña está preparada para que después podamos añadir más semanas sin reemplazar la rutina.</p>
-      </aside>
+  <!-- 05 -->
+  <section class="slide" id="borde" aria-label="Capa de borde">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
     </div>
+    <div class="slide-inner">
+      <div class="section-heading compact-heading">
+        <p class="eyebrow">04 · Capa de borde</p>
+        <h2>Procesamiento en la Orange Pi</h2>
+      </div>
+      <div class="edge-layout">
+        <div class="edge-device">
+          <span class="device-caption">Orange Pi Zero 2 W</span>
+          <svg class="art" viewBox="0 0 530 260" role="img" aria-label="Dibujo de la Orange Pi con el modelo de IA y Node-RED">
+            <ellipse cx="267" cy="223" rx="210" ry="23" fill="#c8e4da"/>
+            <g transform="translate(92 29)">
+              <rect x="17" y="18" width="350" height="175" rx="20" fill="#17655e" stroke="#10544d" stroke-width="5"/>
+              <rect x="36" y="33" width="312" height="144" rx="12" fill="#247a6d"/>
+              <g fill="#d8c990"><circle cx="41" cy="42" r="7"/><circle cx="341" cy="42" r="7"/><circle cx="41" cy="169" r="7"/><circle cx="341" cy="169" r="7"/></g>
+              <g stroke="#c1b56c" stroke-width="2" opacity=".7"><path d="M78 65h45v25h41M285 139h-37v-22h-34M105 137h28v-30h38M256 78h40v30h29"/></g>
+              <rect x="124" y="57" width="138" height="102" rx="10" fill="#172f36" stroke="#83b8a1" stroke-width="3"/>
+              <rect x="140" y="72" width="106" height="73" rx="4" fill="#253d49"/>
+              <text x="193" y="98" text-anchor="middle" fill="#c8f4dd" font-size="19" font-family="Arial" font-weight="bold">Orange Pi</text>
+              <text x="193" y="119" text-anchor="middle" fill="#a7bfc1" font-size="12" font-family="Arial">Python + Node-RED</text>
+              <rect x="3" y="66" width="27" height="63" rx="4" fill="#475b60"/>
+              <rect x="358" y="70" width="28" height="42" rx="4" fill="#485f5d"/>
+              <rect x="358" y="122" width="28" height="32" rx="4" fill="#536867"/>
+              <g fill="#b2ad7e"><rect x="52" y="16" width="65" height="13" rx="3"/><rect x="268" y="16" width="65" height="13" rx="3"/></g>
+              <g fill="#e5ae58"><circle cx="74" cy="140" r="5"/><circle cx="93" cy="140" r="5"/><circle cx="297" cy="59" r="5"/><circle cx="314" cy="59" r="5"/></g>
+            </g>
+          </svg>
+        </div>
+        <div class="edge-pipeline">
+          <div class="pipeline-card"><svg class="icon"><use href="#i-camera"/></svg><div><h3>Recibir la imagen</h3><p>La Orange Pi obtiene la foto de la ESP32-S3.</p></div></div>
+          <div class="pipeline-card"><svg class="icon"><use href="#i-cpu"/></svg><div><h3>Reconocer el producto</h3><p>Un programa de Python ejecuta el modelo de IA.</p></div></div>
+          <div class="pipeline-card"><svg class="icon"><use href="#i-layers"/></svg><div><h3>Distribuir los datos</h3><p>Node-RED comunica el resultado con la pantalla y las bases de datos.</p></div></div>
+          <div class="pipeline-chips"><strong>Servicios en contenedores Docker</strong><div class="chips"><span class="chip">Mosquitto · MQTT</span><span class="chip">Node-RED · flujos</span><span class="chip">InfluxDB · métricas</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="page-number">05 / 08</div>
+  </section>
 
-  </main>
+  <!-- 06 -->
+  <section class="slide" id="interfaz" aria-label="Visualización, almacenamiento y control">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner">
+      <div class="section-heading">
+        <p class="eyebrow">05 · Interfaz y registro</p>
+        <h2>Pantalla, base de datos y gráficas</h2>
+        <p class="lead">Confirmar movimientos, guardar existencias y ver información del inventario.</p>
+      </div>
+      <div class="three-up">
+        <article class="panel interface-card">
+          <div class="interface-art">
+            <svg viewBox="0 0 240 144" role="img" aria-label="Diagrama estático de una pequeña pantalla">
+              <rect x="32" y="7" width="176" height="130" rx="12" fill="#24394e"/><rect x="43" y="18" width="154" height="108" rx="5" fill="#e7f3f3"/>
+              <text x="57" y="41" fill="#1d5861" font-size="14" font-family="Arial" font-weight="bold">Inventario</text><path d="M56 49h128" stroke="#bfdbdc" stroke-width="2"/>
+              <rect x="57" y="61" width="125" height="21" rx="5" fill="#c1dce0"/><text x="67" y="75" fill="#376273" font-size="10" font-family="Arial">Producto detectado</text>
+              <rect x="57" y="94" width="55" height="20" rx="5" fill="#91b9bd"/><rect x="125" y="94" width="57" height="20" rx="5" fill="#7bcbb9"/>
+              <text x="84" y="107" text-anchor="middle" fill="#134554" font-size="9" font-family="Arial">Entrada</text><text x="153" y="107" text-anchor="middle" fill="#134554" font-size="9" font-family="Arial">Salida</text>
+              <circle cx="120" cy="132" r="3" fill="#9aafba"/>
+            </svg>
+          </div>
+          <h3>Pantalla ILI9341</h3>
+          <p>Menú en Python para ver el producto y confirmar entrada o salida.</p>
+          <span class="chip">Conectada a la Orange Pi</span>
+        </article>
+        <article class="panel interface-card">
+          <div class="interface-art two">
+            <svg viewBox="0 0 240 144" role="img" aria-label="Ilustración de almacenamiento de datos">
+              <ellipse cx="120" cy="38" rx="65" ry="23" fill="#77b4a5"/><path d="M55 38v65c0 14 29 25 65 25s65-11 65-25V38" fill="#a2d7c5"/>
+              <path d="M55 69c0 14 29 25 65 25s65-11 65-25M55 101c0 14 29 25 65 25s65-11 65-25" fill="none" stroke="#6da99d" stroke-width="4"/>
+              <ellipse cx="120" cy="38" rx="65" ry="23" fill="#7dbdab" stroke="#64a799" stroke-width="2"/>
+              <g fill="#2e8d7c"><rect x="86" y="27" width="67" height="7" rx="3"/><rect x="86" y="41" width="43" height="6" rx="3"/></g>
+            </svg>
+          </div>
+          <h3>MariaDB</h3>
+          <p>Guarda productos, entradas, salidas y existencias confirmadas.</p>
+          <span class="chip">Contenedor en la PC</span>
+        </article>
+        <article class="panel interface-card">
+          <div class="interface-art three">
+            <svg viewBox="0 0 240 144" role="img" aria-label="Ilustración de una gráfica de inventario">
+              <rect x="20" y="17" width="200" height="114" rx="9" fill="#fff" stroke="#e4d5bf" stroke-width="3"/>
+              <path d="M42 40v72h153" stroke="#b7a388" stroke-width="2" fill="none"/>
+              <g fill="#f2ca8a"><rect x="56" y="79" width="23" height="33" rx="3"/><rect x="91" y="59" width="23" height="53" rx="3"/><rect x="126" y="72" width="23" height="40" rx="3"/><rect x="161" y="46" width="23" height="66" rx="3"/></g>
+              <path d="m67 70 36-23 35 10 35-28" stroke="#bb814a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="#bb814a"><circle cx="67" cy="70" r="4"/><circle cx="103" cy="47" r="4"/><circle cx="138" cy="57" r="4"/><circle cx="173" cy="29" r="4"/></g>
+            </svg>
+          </div>
+          <h3>Grafana</h3>
+          <p>Muestra gráficas de las existencias y los movimientos registrados.</p>
+          <span class="chip">Contenedor en la PC</span>
+        </article>
+      </div>
+    </div>
+    <div class="page-number">06 / 08</div>
+  </section>
 
-  <footer>
-    Rutina personal de inicio · Ajusta pesos y máquinas con ayuda del personal del gimnasio.
-  </footer>
+  <!-- 07 -->
+  <section class="slide" id="equipo" aria-label="Reparto de tareas">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner">
+      <div class="section-heading">
+        <p class="eyebrow">06 · Organización</p>
+        <h2>Reparto de tareas</h2>
+        <p class="lead">Cada integrante se encarga principalmente de una parte del sistema.</p>
+      </div>
+      <div class="three-up">
+        <article class="panel member-card">
+          <div class="avatar"><svg class="icon"><use href="#i-database"/></svg></div>
+          <h3>Gabriel Patricio<br>Balam Flores</h3>
+          <p class="job">Base de datos e integración</p>
+          <div class="chips"><span class="chip">MariaDB</span><span class="chip">Grafana</span><span class="chip">Node-RED</span></div>
+        </article>
+        <article class="panel member-card">
+          <div class="avatar"><svg class="icon"><use href="#i-camera"/></svg></div>
+          <h3>Luis Carlos<br>Hernández Domínguez</h3>
+          <p class="job">Cámara y comunicación</p>
+          <div class="chips"><span class="chip">ESP32-S3</span><span class="chip">Wi-Fi</span><span class="chip">Consumo</span></div>
+        </article>
+        <article class="panel member-card">
+          <div class="avatar"><svg class="icon"><use href="#i-cpu"/></svg></div>
+          <h3>Samuel<br>Medina Villa</h3>
+          <p class="job">Reconocimiento e interfaz</p>
+          <div class="chips"><span class="chip">Modelo de IA</span><span class="chip">ILI9341</span><span class="chip">Pruebas</span></div>
+        </article>
+      </div>
+      <p class="team-footer">Entre todos: integración del prototipo, pruebas, reporte, video y exposición.</p>
+    </div>
+    <div class="page-number">07 / 08</div>
+  </section>
 
-  <script src="script.js"></script>
+  <!-- 08 -->
+  <section class="slide" id="fechas" aria-label="Cronograma y entregables">
+    <div class="slide-decor" aria-hidden="true">
+      <span class="shape shape-a"></span>
+      <span class="shape shape-b"></span>
+      <span class="shape shape-c"></span>
+    </div>
+    <div class="slide-inner">
+      <div class="section-heading compact-heading">
+        <p class="eyebrow">07 · Plan de trabajo</p>
+        <h2>Fechas y entregas</h2>
+      </div>
+      <div class="timeline">
+        <div class="milestone"><div class="milestone-box"><div class="date">28 OCT</div><h3>Planeación</h3><p>Idea, esquema y tareas.</p></div></div>
+        <div class="milestone"><div class="milestone-box"><div class="date">04 NOV</div><h3>Primer avance</h3><p>Captura de foto y pruebas de IA.</p></div></div>
+        <div class="milestone"><div class="milestone-box"><div class="date">11 NOV</div><h3>Segundo avance</h3><p>Registro de entradas y salidas.</p></div></div>
+        <div class="milestone"><div class="milestone-box"><div class="date">18 NOV</div><h3>Tercer avance</h3><p>Integrar pantalla y gráficas.</p></div></div>
+        <div class="milestone"><div class="milestone-box"><div class="date">25 NOV</div><h3>Entrega final</h3><p>Prototipo y documentación.</p></div></div>
+      </div>
+      <div class="delivery">
+        <div class="delivery-box"><svg class="icon"><use href="#i-list"/></svg><div><strong>Entregables</strong><p>Reporte, video y códigos (ESP32, Orange Pi y flujos de Node-RED).</p></div></div>
+        <div class="delivery-box green"><svg class="icon"><use href="#i-check"/></svg><div><strong>Qué vamos a comprobar</strong><p>Identificación, conteo correcto, costo del prototipo y consumo de energía.</p></div></div>
+      </div>
+    </div>
+    <div class="page-number">08 / 08</div>
+  </section>
+</main>
+<nav class="nav" aria-label="Navegar por la presentación">
+  <span class="counter" id="slideCounter" aria-live="polite">1 / 8</span>
+  <button type="button" id="prevBtn" title="Diapositiva anterior" aria-label="Anterior"><svg class="icon"><use href="#i-arrow-left"/></svg></button>
+  <button class="next" type="button" id="nextBtn" title="Siguiente diapositiva"><span id="nextLabel">Siguiente</span><svg class="icon"><use href="#i-arrow"/></svg></button>
+</nav>
+<script src="script.js" defer></script>
 </body>
 </html>

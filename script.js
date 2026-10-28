@@ -1,82 +1,40 @@
-const tabs = document.querySelectorAll('.day-tab');
-const panels = document.querySelectorAll('.day-panel');
-
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    panels.forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.day).classList.add('active');
-    window.scrollTo({ top: document.querySelector('.day-tabs').offsetTop - 8, behavior: 'smooth' });
+  // Solo navegación entre secciones; no hay simuladores ni datos ficticios interactivos.
+  const slides = [...document.querySelectorAll('main > .slide')];
+  const counter = document.getElementById('slideCounter');
+  const progressBar = document.getElementById('progressBar');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const nextLabel = document.getElementById('nextLabel');
+  let active = 0;
+  function updateNavigation(index) {
+    active = Math.max(0, Math.min(index, slides.length - 1));
+    document.body.classList.toggle('on-cover', active === 0);
+    counter.textContent = `${active + 1} / ${slides.length}`;
+    progressBar.style.width = `${100 * (active + 1) / slides.length}%`;
+    prevBtn.disabled = active === 0;
+    nextBtn.disabled = active === slides.length - 1;
+    nextLabel.textContent = active === slides.length - 1 ? 'Final' : 'Siguiente';
+  }
+  function goTo(index) {
+    const n = Math.max(0, Math.min(index, slides.length - 1));
+    slides[n].scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    updateNavigation(n);
+  }
+  prevBtn.addEventListener('click', () => goTo(active - 1));
+  nextBtn.addEventListener('click', () => goTo(active + 1));
+  document.addEventListener('keydown', e => {
+    if (e.altKey || e.ctrlKey || e.metaKey || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+    if (['ArrowRight', 'PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) { e.preventDefault();goTo(active + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) { e.preventDefault();goTo(active - 1); }
+    if (e.key === 'Home') {e.preventDefault();goTo(0)}
+    if (e.key === 'End') {e.preventDefault();goTo(slides.length - 1)}
   });
-});
-
-const checkboxes = [...document.querySelectorAll('.exercise input')];
-checkboxes.forEach((box, index) => {
-  const key = `active24-check-${index}`;
-  box.checked = localStorage.getItem(key) === 'true';
-  box.addEventListener('change', () => localStorage.setItem(key, box.checked));
-});
-
-let timer = null;
-let remaining = 60;
-const display = document.getElementById('timerDisplay');
-
-function drawTimer() {
-  const min = Math.floor(remaining / 60).toString().padStart(2, '0');
-  const sec = (remaining % 60).toString().padStart(2, '0');
-  display.textContent = `${min}:${sec}`;
-}
-
-function startTimer(seconds) {
-  clearInterval(timer);
-  remaining = seconds;
-  drawTimer();
-  timer = setInterval(() => {
-    remaining--;
-    drawTimer();
-    if (remaining <= 0) {
-      clearInterval(timer);
-      display.textContent = '¡Listo!';
-      if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
-    }
-  }, 1000);
-}
-
-document.querySelectorAll('[data-seconds]').forEach(btn => {
-  btn.addEventListener('click', () => startTimer(Number(btn.dataset.seconds)));
-});
-
-document.getElementById('timerReset').addEventListener('click', () => {
-  clearInterval(timer);
-  remaining = 60;
-  drawTimer();
-});
-
-const appTabs = document.querySelectorAll('.app-tab');
-const appViews = document.querySelectorAll('.app-view');
-appTabs.forEach(tab => tab.addEventListener('click', () => {
-  appTabs.forEach(t => t.classList.remove('active'));
-  appViews.forEach(v => v.classList.remove('active'));
-  tab.classList.add('active');
-  document.getElementById(tab.dataset.view).classList.add('active');
-  localStorage.setItem('active24-main-view', tab.dataset.view);
-  window.scrollTo({top:0,behavior:'smooth'});
-}));
-const savedView = localStorage.getItem('active24-main-view');
-if(savedView){
-  const tab=document.querySelector(`.app-tab[data-view="${savedView}"]`);
-  const view=document.getElementById(savedView);
-  if(tab&&view){appTabs.forEach(t=>t.classList.remove('active'));appViews.forEach(v=>v.classList.remove('active'));tab.classList.add('active');view.classList.add('active');}
-}
-document.querySelectorAll('.meal-toggle').forEach(btn=>btn.addEventListener('click',()=>{
-  const content=btn.closest('.meal-card').querySelector('.meal-card__content');
-  const collapsed=content.classList.toggle('collapsed');
-  btn.textContent=collapsed?'+':'−';
-  btn.setAttribute('aria-expanded',String(!collapsed));
-}));
-[...document.querySelectorAll('.food-item input')].forEach((box,i)=>{
-  const key=`active24-food-${i}`;
-  box.checked=localStorage.getItem(key)==='true';
-  box.addEventListener('change',()=>localStorage.setItem(key,box.checked));
-});
+  const observer = new IntersectionObserver(entries => {
+    const visibles = entries.filter(entry => entry.isIntersecting).sort((a,b) => b.intersectionRatio-a.intersectionRatio);
+    if (visibles.length) updateNavigation(slides.indexOf(visibles[0].target));
+  }, {threshold:[.2,.4,.6,.8]});
+  slides.forEach(slide => observer.observe(slide));
+  if(location.hash) {
+    const index = slides.findIndex(slide => '#' + slide.id === decodeURIComponent(location.hash));
+    if(index >= 0) updateNavigation(index);
+  } else updateNavigation(0);
